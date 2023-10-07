@@ -12,6 +12,8 @@ services:
       - ./backend:/usr/src/app/
     env_file:
       - .env
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -25,3 +27,18 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
+
+  db:
+    container_name: db
+    image: postgres:15.1
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:

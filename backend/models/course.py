@@ -8,6 +8,21 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 from slugify import slugify
 
 
+#*Category
+class Category(models.Model):
+    id = fields.IntField(pk=True)
+    name = fields.CharField(max_length=100,null=True,unique=True)
+    slug = fields.CharField(max_length=100,null=True,unique=True)
+    
+    def __str__(self):
+        return f"{self.name}"
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Category, self).save(*args, **kwargs)
+    class Meta:
+        table = 'Category'
+    
 
 #*Wsl
 class Wsl(models.Model):
@@ -16,6 +31,8 @@ class Wsl(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+    class Meta:
+        table = 'Wsl'
 
 
 #*Course
@@ -35,7 +52,9 @@ class Course(models.Model):
     title = fields.CharField(max_length=100,unique=True)
     description = fields.TextField()
     cover_image = fields.CharField(max_length=200)#S3
+    price = fields.FloatField(default=0)
     author = fields.ForeignKeyField('models.profile.Profile',related_name='author_course')
+    category = fields.ForeignKeyField('course.Category',related_name='category_course') 
     course_link = fields.CharField(max_length=200,unique=True)#S3
     slug = fields.CharField(max_length=100,null=True,unique=True)
     wsl = fields.ForeignKeyField('course.Wsl',related_name='wsl_course')
@@ -48,8 +67,13 @@ class Course(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super(Course, self).save(*args, **kwargs)
-    
+    class Meta:
+        ordering = ['-created_at']
+        table = 'Course'
+
 #Pydantic model instance
+Category_Pydantic = pydantic_model_creator(Category,name='Category')
+CategoryIn_Pydantic = pydantic_model_creator(Category,name='CategoryIn',exclude_readonly=True,exclude=['slug'])
 Wsl_Pydantic = pydantic_model_creator(Wsl,name='Wsl')
 WslIn_Pydantic = pydantic_model_creator(Wsl,name='WslIn',exclude_readonly=True)    
 Course_Pydantic = pydantic_model_creator(Course,name='Course',exclude=['modified_at'])

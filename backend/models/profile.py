@@ -37,6 +37,10 @@ class Profile(models.Model):
             return f"{self.first_name or ''} {self.last_name or ''}".strip()
         return self.username
     
+    class Meta:
+        ordering = ['-date_joined']
+        table = 'Profile'
+    
 #Pydantic shmecas
 Profile_Pydantic = pydantic_model_creator(Profile,name='Profile',exclude=['password'])
 ProfileIn_Pydantic = pydantic_model_creator(Profile,name='ProfileIn',exclude_readonly=True)

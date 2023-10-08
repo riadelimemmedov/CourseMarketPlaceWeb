@@ -7,8 +7,6 @@ from typing import Optional
 from tortoise import Tortoise
 
 
-
-
 #?register_tortoise
 def register_tortoise(app,config: Optional[dict] = None,generate_schemas: bool = False) -> None:
     @app.on_event("startup")

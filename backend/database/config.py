@@ -11,8 +11,11 @@ TORTOISE_ORM = {
     "apps": {
         "models": {
             "models": [
-                "models.block", "aerich.models",
-                "models.note", "aerich.models"
+                "models.cart", "aerich.models",
+                "models.note", "aerich.models",
+                "models.course", "aerich.models",
+                "models.profile", "aerich.models"
+                
             ],
             "default_connection": "default"
         }

@@ -19,14 +19,13 @@ class Cart(models.Model):
     class Meta:
         ordering = ['-date_added']
         table = 'Cart'
-        
 
 
 #*CartItem
 class CartItem(models.Model):
-    user = fields.ForeignKeyField('models.profile.Profile',related_name='user_cart_item',on_delete=fields.CASCADE,null=True)
-    course = fields.ForeignKeyField('models.course.Course',related_name='course_cart_item',on_delete=fields.CASCADE)
-    cart = fields.ForeignKeyField('models.Cart',related_name='cart_item',on_delete=fields.CASCADE,null=True)
+    user = fields.ForeignKeyField('models.Profile',related_name='user_cart_item',on_delete=fields.CASCADE,null=True)
+    course = fields.ForeignKeyField('models.Course',related_name='course_cart_item',on_delete=fields.CASCADE)
+    cart = fields.ForeignKeyField('models.Cart',related_name='cart_data',on_delete=fields.CASCADE,null=True)
     quantity = fields.IntField(default=0)
     is_active = fields.BooleanField(default=True)
     
@@ -39,7 +38,7 @@ class CartItem(models.Model):
     class Meta:
         table = 'CartItem'
 
-#Pydantic model instance
+# Pydantic model instance
 Cart_Pydantic = pydantic_model_creator(Cart,name='Cart')
 CartIn_Pydantic = pydantic_model_creator(Cart,name='CartIn',exclude_readonly=True)
 CartItem_Pydantic = pydantic_model_creator(CartItem,name='CartItem')

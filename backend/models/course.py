@@ -53,11 +53,11 @@ class Course(models.Model):
     description = fields.TextField()
     cover_image = fields.CharField(max_length=200)#S3
     price = fields.FloatField(default=0)
-    author = fields.ForeignKeyField('models.profile.Profile',related_name='author_course')
-    category = fields.ForeignKeyField('course.Category',related_name='category_course') 
+    author = fields.ForeignKeyField('models.Profile',related_name='author_course')
+    category = fields.ForeignKeyField('models.Category',related_name='category_course') 
     course_link = fields.CharField(max_length=200,unique=True)#S3
     slug = fields.CharField(max_length=100,null=True,unique=True)
-    wsl = fields.ForeignKeyField('course.Wsl',related_name='wsl_course')
+    wsl = fields.ForeignKeyField('models.Wsl',related_name='wsl_course')
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
     

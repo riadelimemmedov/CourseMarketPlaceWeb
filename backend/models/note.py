@@ -23,6 +23,9 @@ class Note(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super(Note, self).save(*args, **kwargs)
+    
+    class Meta:
+        table = 'Note'
 
 #Pydantic model instance
 Note_Pydantic = pydantic_model_creator(Note,name='Note',exclude=['modified_at'])

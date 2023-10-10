@@ -5,7 +5,6 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 
 
 #!Helper function
-from utils.helpers import generate_random_user_code
 
 
 #*Profile

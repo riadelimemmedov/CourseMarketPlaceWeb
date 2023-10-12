@@ -17,7 +17,7 @@ from typing import List
 
 
 #!Schemas
-from schemas.base import BaseModel
+from schemas.base import Status
 
 
 #router
@@ -33,19 +33,32 @@ async def get_all_courses():
 
 
 #*get_course
-@router.get('/course/{slug}',status_code=200,response_model=Course_Pydantic)
+@router.get('/courses/{slug}',status_code=200,response_model=Course_Pydantic)
 async def get_course(slug:str):
     """Get course"""
     pass
 
 
 #*create_course
-@router.post('/course/',status_code=201,response_model=Course_Pydantic)
+@router.post('/courses/',status_code=201,response_model=Course_Pydantic)
 async def create_course(course:CourseIn_Pydantic):
     """Create course"""
     pass
 
 
+@router.put('/courses/{slug}/',status_code=200,response_model=Course_Pydantic)
+async def update_course(slug:str,course:CourseIn_Pydantic):
+    """Update course"""
+    pass
 
 
+@router.delete('/courses/{slug}/',status_code=202,response_model=Status)
+async def delete_course(slug:str):
+    """Delete course"""
+    pass
 
+
+@router.delete('/courses/',status_code=202,response_model=Status)
+async def delete_all_course():
+    """Delete all course"""
+    pass

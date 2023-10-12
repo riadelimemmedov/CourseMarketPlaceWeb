@@ -15,7 +15,6 @@ TORTOISE_ORM = {
                 "models.note", "aerich.models",
                 "models.course", "aerich.models",
                 "models.profile", "aerich.models"
-                
             ],
             "default_connection": "default"
         }

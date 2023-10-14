@@ -17,8 +17,13 @@ from models.note import Note_Pydantic,NoteIn_Pydantic,Note
 from typing import List
 
 
-#Create FastAPI object from FastAPI class
+#! Custom router
+from resources.routes import api_router
+
+
+#Create FastAPI object from FastAPI class and register creating endpoint
 app = FastAPI()
+app.include_router(api_router)
 
 #Middleware
 app.add_middleware(

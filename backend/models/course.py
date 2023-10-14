@@ -70,12 +70,3 @@ class Course(models.Model):
     class Meta:
         ordering = ['-created_at']
         table = 'Course'
-
-#Pydantic model instance
-Category_Pydantic = pydantic_model_creator(Category,name='Category')
-CategoryIn_Pydantic = pydantic_model_creator(Category,name='CategoryIn',exclude_readonly=True,exclude=['slug'])
-Wsl_Pydantic = pydantic_model_creator(Wsl,name='Wsl')
-WslIn_Pydantic = pydantic_model_creator(Wsl,name='WslIn',exclude_readonly=True)    
-Course_Pydantic = pydantic_model_creator(Course,name='Course',exclude=['modified_at'])
-CourseIn_Pydantic = pydantic_model_creator(Course,name='CourseIn',exclude_readonly=True,exclude=['slug'])
-

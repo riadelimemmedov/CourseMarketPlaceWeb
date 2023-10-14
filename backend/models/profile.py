@@ -4,9 +4,6 @@ from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 
 
-#!Helper function
-
-
 #*Profile
 class Profile(models.Model):
     ROLE_TYPE = [
@@ -39,11 +36,3 @@ class Profile(models.Model):
     class Meta:
         ordering = ['-date_joined']
         table = 'Profile'
-    
-#Pydantic shmecas
-Profile_Pydantic = pydantic_model_creator(Profile,name='Profile',exclude=['password'])
-ProfileIn_Pydantic = pydantic_model_creator(Profile,name='ProfileIn',exclude_readonly=True)
-
-
-
-

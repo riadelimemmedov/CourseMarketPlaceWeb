@@ -23,7 +23,7 @@ class Cart(models.Model):
 
 #*CartItem
 class CartItem(models.Model):
-    user = fields.ForeignKeyField('models.Profile',related_name='user_cart_item',on_delete=fields.CASCADE,null=True)
+    profile = fields.ForeignKeyField('models.Profile',related_name='profile_cart_item',on_delete=fields.CASCADE,null=True)
     course = fields.ForeignKeyField('models.Course',related_name='course_cart_item',on_delete=fields.CASCADE)
     cart = fields.ForeignKeyField('models.Cart',related_name='cart_data',on_delete=fields.CASCADE,null=True)
     quantity = fields.IntField(default=0)
@@ -39,7 +39,7 @@ class CartItem(models.Model):
         table = 'CartItem'
 
 # Pydantic model instance
-Cart_Pydantic = pydantic_model_creator(Cart,name='Cart')
-CartIn_Pydantic = pydantic_model_creator(Cart,name='CartIn',exclude_readonly=True)
-CartItem_Pydantic = pydantic_model_creator(CartItem,name='CartItem')
-CartItemIn_Pydantic = pydantic_model_creator(CartItem,name='CartItemIn',exclude_readonly=True)
+CartInSchema = pydantic_model_creator(Cart,name='CartIn',exclude_readonly=True)
+CartOutSchema = pydantic_model_creator(Cart,name='Cart')
+CartItemInSchema = pydantic_model_creator(CartItem,name='CartItemIn',exclude=['profile_id','course_id','cart_id'],exclude_readonly=True)
+CartItemOutSchema = pydantic_model_creator(CartItem,name='CartItem',exclude=['profile.password','profile.created_at','profile.modified_at'])

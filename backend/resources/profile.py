@@ -5,11 +5,11 @@ from fastapi import APIRouter
 
 
 #!Models,Serializers and Manager class
-from managers.course import CourseManager
+from managers.profile.profile import ProfileManager
 
 
 #!Schemas
-from models.course import Course_Pydantic,CourseIn_Pydantic
+from schemas.profile import (ProfileDatabaseSchema,ProfileInSchema,ProfileOutSchema)
 
 
 #!Python modules and functions

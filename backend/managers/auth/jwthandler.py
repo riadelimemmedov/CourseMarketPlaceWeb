@@ -73,3 +73,27 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
     return encoded_jwt
+
+#*get_current_user
+async def get_current_user(token:str=Depends(security)):
+    credentials_exception = HTTPException(
+        status_code=401,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    
+    try:
+        payload = jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
+        username:str = payload.get('sub')
+        if username is None:
+            raise credentials_exception
+        token_data = TokenData(username=username)
+    except JWTError:
+        raise credentials_exception
+    
+    try:
+        profile = await ProfileOutSchema.from_queryset_single(Profile.get(username=token_data.username))
+    except DoesNotExist:
+        raise credentials_exception
+    
+    return profile

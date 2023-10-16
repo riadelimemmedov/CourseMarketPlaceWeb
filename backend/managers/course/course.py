@@ -10,6 +10,7 @@ from tortoise.exceptions import DoesNotExist
 #!Database models
 from models.course import (Course) 
 from schemas.course import (CourseOutSchema)
+from schemas.base import Status
 
 #!Pydantic 
 from pydantic import BaseModel
@@ -57,7 +58,7 @@ class CourseManager:
     
     #?delete_course
     @staticmethod
-    async def delete_course(slug,current_profile):
+    async def delete_course(slug,current_profile) -> Status:
         try:
             db_course = await CourseOutSchema.from_queryset_single(Course.get(slug=slug))
         except DoesNotExist:
@@ -66,4 +67,5 @@ class CourseManager:
             deleted_course = await Course.filter(slug=slug).delete()
             if not deleted_course:
                 raise HTTPException(status_code=404,detail=f"Unable to delete course")
-            return f"Deleted course {slug}"
+            return Status(message=f"Deleted course {slug}")
+        return HTTPException(status_code=403,detail=f"Not authorized to delete")

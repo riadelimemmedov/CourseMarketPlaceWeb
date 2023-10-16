@@ -9,6 +9,7 @@ from models.profile import (Profile)
 
 #!Schemas
 from schemas.profile import (ProfileOutSchema)
+from schemas.base import Status
 
 # pwd_context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -28,7 +29,7 @@ class ProfileManager:
 
     #?delete_profile
     @staticmethod
-    async def delete_profile(profile_id,current_profile):
+    async def delete_profile(profile_id,current_profile) -> Status:
         try:
             db_profile = await ProfileOutSchema.from_queryset_single(Profile.get(id=profile_id))
         except DoesNotExist:
@@ -38,5 +39,5 @@ class ProfileManager:
             deleted_profile = await Profile.filter(id=profile_id).delete()
             if not deleted_profile:
                 raise HTTPException(status_code=404, detail='Unable to delete your account')
-            return f"Deleted profile {profile_id}"
+            return Status(message=f"Deleted profile {profile_id}")
         raise HTTPException(status_code=403,detail=f"Not authorized to delete")

@@ -1,24 +1,28 @@
 #
 
 #!FastApi
-from fastapi import APIRouter
+from fastapi import APIRouter,Depends
 
 
 #!Models,Serializers and Manager class
 from managers.course.course import CourseManager
+from managers.auth.jwthandler import (get_current_user)
+from managers.auth.auth import (is_admin,is_teacher,is_user)
 
 
-#!Schemas
-from schemas.course import (CourseInSchema,CourseOutSchema)
+#!Schemas 
+from schemas.course import (CourseInSchema,CourseOutSchema,UpdateCourse)
+from schemas.profile import (ProfileOutSchema,ProfileInSchema,ProfileDatabaseSchema)
+from schemas.base import Status
+
 
 
 #!Python modules and functions
 from typing import List
 
 
-#!Schemas
-from schemas.base import Status
-
+#!Tortoise
+from tortoise.contrib.fastapi import HTTPNotFoundError
 
 #router
 router = APIRouter(tags=['Course'])
@@ -26,39 +30,43 @@ router = APIRouter(tags=['Course'])
 
 
 #*get_all_courses
-@router.get('/courses/',status_code=200,response_model=List(CourseOutSchema))#dependencies=[Depends(oauth2_schema)] Add this when write this endpoint completly
+@router.get('/courses/',response_model=List[(CourseOutSchema)],dependencies=[Depends(get_current_user)],status_code=200)#dependencies=[Depends(oauth2_schema)] Add this when write this endpoint completly
 async def get_all_courses():
     """Get all courses"""
     pass
 
 
 #*get_course
-@router.get('/courses/{slug}',status_code=200,response_model=CourseOutSchema)
-async def get_course(slug:str):
+@router.get('/courses/{slug}',response_model=CourseOutSchema,dependencies=[Depends(get_current_user)],status_code=200)
+async def get_course(slug:str) -> CourseOutSchema:
     """Get course"""
     pass
 
 
 #*create_course
-@router.post('/courses/',status_code=201,response_model=CourseOutSchema)
-async def create_course(course:CourseInSchema):
+@router.post('/courses/',response_model=CourseOutSchema,dependencies=[Depends(get_current_user),Depends(is_teacher)],status_code=201)
+async def create_course(course:CourseInSchema,current_profile:ProfileOutSchema=Depends(get_current_user)) -> CourseOutSchema:
     """Create course"""
     pass
 
 
-@router.put('/courses/{slug}/',status_code=200,response_model=CourseOutSchema)
-async def update_course(slug:str,course:CourseInSchema):
+#*update_course
+@router.patch('/courses/{slug}/',dependencies=[Depends(get_current_user),Depends(is_teacher)],response_model=CourseOutSchema,responses={404:{"model":HTTPNotFoundError}},status_code=201)
+async def update_course(slug:str,course:UpdateCourse,current_user:ProfileOutSchema=Depends(get_current_user)) -> CourseOutSchema:
     """Update course"""
     pass
 
 
-@router.delete('/courses/{slug}/',status_code=202,response_model=Status)
-async def delete_course(slug:str):
+
+#*delete_course
+@router.delete('/courses/{slug}/',response_model=Status,responses={404: {"model": HTTPNotFoundError}},dependencies=[Depends(get_current_user),Depends(is_admin),Depends(is_teacher)],status_code=201)
+async def delete_course(slug:str,current_profile:ProfileOutSchema=Depends(get_current_user)):
     """Delete course"""
     pass
 
 
-@router.delete('/courses/',status_code=202,response_model=Status)
+#*delete_all_course
+@router.delete('/courses/',response_model=Status,dependencies=[Depends(get_current_user),Depends(is_admin),Depends(is_teacher)],status_code=201)
 async def delete_all_course():
     """Delete all course"""
     pass

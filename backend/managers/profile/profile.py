@@ -11,6 +11,9 @@ from models.profile import (Profile)
 from schemas.profile import (ProfileOutSchema)
 from schemas.base import Status
 
+#!Helpers methods
+from utils.helpers import (validate_email)
+
 # pwd_context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

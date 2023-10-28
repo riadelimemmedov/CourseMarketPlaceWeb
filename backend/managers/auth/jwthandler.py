@@ -54,7 +54,6 @@ class OAuth2PasswordBearerCookie(OAuth2):
                 )
             else:
                 return None
-
         return param
     
 security = OAuth2PasswordBearerCookie(token_url="/login")
@@ -75,7 +74,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 #*get_current_user
-async def get_current_user(token:str=Depends(security)):
+async def get_current_user(request:Request,token:str=Depends(security)):
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
@@ -93,6 +92,7 @@ async def get_current_user(token:str=Depends(security)):
     
     try:
         profile = await ProfileOutSchema.from_queryset_single(Profile.get(username=token_data.username))
+        request.state.user = profile
     except DoesNotExist:
         raise credentials_exception
     

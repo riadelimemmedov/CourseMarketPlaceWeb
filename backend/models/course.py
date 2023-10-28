@@ -48,7 +48,7 @@ class Course(models.Model):
         ('Firebase','Firebase'),
     ]
     id = fields.IntField(pk=True)
-    course_type = fields.CharField(max_length=50)
+    course_type = fields.CharField(max_length=50,choices=COURSE_TYPE,null=True)
     title = fields.CharField(max_length=100,unique=True)
     description = fields.TextField()
     cover_image = fields.CharField(max_length=200)#S3
@@ -57,7 +57,7 @@ class Course(models.Model):
     category = fields.ForeignKeyField('models.Category',related_name='category_course') 
     course_link = fields.CharField(max_length=200,unique=True)#S3
     slug = fields.CharField(max_length=100,null=True,unique=True)
-    wsl = fields.ForeignKeyField('models.Wsl',related_name='wsl_course')
+    #wsl = fields.ForeignKeyField('models.Wsl',related_name='wsl_course')
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
     

@@ -17,7 +17,7 @@ class Profile(models.Model):
     last_name  = fields.CharField(max_length=50,unique=True)#
     username = fields.CharField(max_length=50,unique=True,null=True)
     email = fields.CharField(max_length=100,unique=True)#
-    profile_image = fields.CharField(max_length=200)#S3
+    profile_image = fields.CharField(max_length=200,null=True)#S3
     metamask_address = fields.CharField(max_length=200,unique=True)
     user_role = fields.CharField(max_length=50,null=True,choices=ROLE_TYPE,default=ROLE_TYPE[2][0])
     password = fields.CharField(max_length=128, null=True)
@@ -32,6 +32,11 @@ class Profile(models.Model):
         if self.first_name and self.last_name:
             return f"{self.first_name or ''} {self.last_name or ''}".strip()
         return self.username
+    
+    def save(self, *args, **kwargs):
+        self.username = self.full_name()
+        return super(Profile, self).save(*args, **kwargs)
+        
     
     class Meta:
         ordering = ['-date_joined']

@@ -4,7 +4,7 @@
 from fastapi import APIRouter
 
 #!Models,Serializers and Manager class
-from resources import auth,course,profile,category
+from resources import auth, course, profile, category
 
 
 # Create APIRouter instance from APIRouter classs

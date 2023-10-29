@@ -1,3 +1,5 @@
+#
+
 #!FastApi
 from fastapi import FastAPI, Depends, Request
 from fastapi.exceptions import RequestValidationError, HTTPException
@@ -17,6 +19,9 @@ from pydantic import BaseModel
 #!Python modules and functions
 from typing import List
 from decouple import config
+
+#!Helpers methods
+from utils.helpers import generate_slug
 
 
 # *CategoryManager
@@ -46,12 +51,15 @@ class CategoryManager:
                 Category.get(slug=slug)
             )
         except DoesNotExist:
-            return HTTPException(status_code=404, detail=f"Category {slug} not found")
-
+            raise HTTPException(status_code=404, detail=f"Category {slug} not found")
         if db_category.id or db_category.slug:
-            await Category.filter(slug=slug).update(**category.dict(exclude_unset=True))
-            return await CategoryOutSchema.from_queryset_single(Category.get(slug=slug))
-        raise HTTPException(status_code=404, detail=f"Category not found")
+            await Category.filter(slug=slug).update(
+                **category.dict(exclude_unset=True), slug=generate_slug(category.name)
+            )
+            return await CategoryOutSchema.from_queryset_single(
+                Category.get(slug=generate_slug(category.name))
+            )
+        return HTTPException(status_code=404, detail=f"Category not found")
 
     # ?delete_category
     @staticmethod

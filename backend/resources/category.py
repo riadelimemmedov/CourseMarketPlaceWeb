@@ -27,35 +27,34 @@ router = APIRouter(tags=["Category"])
 
 
 # *categories
-@router.get("/categories/", response_model=List[(CategoryOutSchema)], status_code=200)
+@router.get("/categories/", response_model=List[CategoryOutSchema], status_code=200)
 async def get_all_categories() -> CategoryOutSchema:
     """Get all categories"""
-    return CategoryManager.get_all_categories()
+    return await CategoryManager.get_all_categories()
 
 
 # *get_category
 @router.get("/categories/{slug}/", response_model=CategoryOutSchema, status_code=200)
 async def get_category(slug: str) -> CategoryOutSchema:
     """Get category by slug"""
-    return CategoryManager.get_category(slug)
+    return await CategoryManager.get_category(slug)
 
 
 # * create_category
 @router.post("/categories/", response_model=CategoryOutSchema, status_code=201)
 async def create_category(category: CategoryInSchema) -> CategoryOutSchema:
     """Create category by category instance"""
-    return CategoryManager.create_category(category)
+    return await CategoryManager.create_category(category)
 
 
 # * update_category
-router.patch("/categories/{slug}/", response_model=CategoryOutSchema, status_code=201)
-
-
+@router.patch("/categories/{slug}/", response_model=CategoryOutSchema, status_code=201)
 async def update_category(
     slug: str, category: CategoryUpdateSchema
 ) -> CategoryOutSchema:
     """Update category by slug"""
-    return CategoryManager.update_category(slug, category)
+    print("Category value is ", category)
+    return await CategoryManager.update_category(slug, category)
 
 
 # *delete_category
@@ -67,7 +66,7 @@ async def update_category(
 )
 async def delete_category(slug: str) -> Status:
     """Delete category by slug"""
-    return CategoryManager.delete_category(slug)
+    return await CategoryManager.delete_category(slug)
 
 
 # *delete_all_categories
@@ -79,4 +78,4 @@ async def delete_category(slug: str) -> Status:
 )
 async def delete_all_categories() -> Status:
     """Delete all categories"""
-    return CategoryManager.delete_all_categories()
+    return await CategoryManager.delete_all_categories()

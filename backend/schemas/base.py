@@ -1,8 +1,9 @@
+#
 
 #!Pydantic
 from pydantic import BaseModel
 
 
-#*Status
+# *Status
 class Status(BaseModel):
-    message:str
+    message: str

@@ -1,7 +1,8 @@
+#
 
 #!Python modules
 import os
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from typing import Optional
 from decouple import config
 
@@ -11,7 +12,7 @@ from fastapi import Depends, HTTPException, Request
 from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
 from fastapi.security import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
-from jose import JWTError,jwt
+from jose import JWTError, jwt
 from tortoise.exceptions import DoesNotExist
 
 
@@ -21,13 +22,13 @@ from schemas.profile import ProfileOutSchema
 from models.profile import Profile
 
 
-#Define jwt alqoqirhm and expire minutes token
+# Define jwt alqoqirhm and expire minutes token
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-#*OAuth2PasswordBearerCookie
+# *OAuth2PasswordBearerCookie
 class OAuth2PasswordBearerCookie(OAuth2):
     def __init__(
         self,
@@ -55,11 +56,12 @@ class OAuth2PasswordBearerCookie(OAuth2):
             else:
                 return None
         return param
-    
+
+
 security = OAuth2PasswordBearerCookie(token_url="/login")
 
 
-#*create_access_token
+# *create_access_token
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
 
@@ -73,27 +75,30 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
     return encoded_jwt
 
-#*get_current_user
-async def get_current_user(request:Request,token:str=Depends(security)):
+
+# *get_current_user
+async def get_current_user(request: Request, token: str = Depends(security)):
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    
+
     try:
-        payload = jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
-        username:str = payload.get('sub')
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    
+
     try:
-        profile = await ProfileOutSchema.from_queryset_single(Profile.get(username=token_data.username))
+        profile = await ProfileOutSchema.from_queryset_single(
+            Profile.get(username=token_data.username)
+        )
         request.state.user = profile
     except DoesNotExist:
         raise credentials_exception
-    
+
     return profile

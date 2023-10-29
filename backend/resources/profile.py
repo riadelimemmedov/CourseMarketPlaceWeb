@@ -9,7 +9,7 @@ from managers.profile.profile import ProfileManager
 
 
 #!Schemas
-from schemas.profile import (ProfileDatabaseSchema,ProfileInSchema,ProfileOutSchema)
+from schemas.profile import ProfileDatabaseSchema, ProfileInSchema, ProfileOutSchema
 
 
 #!Python modules and functions
@@ -20,6 +20,5 @@ from typing import List
 from schemas.base import Status
 
 
-#router
-router = APIRouter(tags=['Profile'])
-
+# router
+router = APIRouter(tags=["Profile"])

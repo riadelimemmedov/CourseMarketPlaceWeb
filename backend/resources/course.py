@@ -88,11 +88,13 @@ async def create_course(
 )
 async def update_course(
     slug: str,
-    course: UpdateCourse,
-    current_user: ProfileOutSchema = Depends(get_current_user),
+    course_obj: UpdateCourse,
+    category_obj: CategoryInSchema,
+    current_profile: ProfileOutSchema = Depends(get_current_user),
 ) -> CourseOutSchema:
     """Update course"""
-    pass
+    category = await CategoryManager.get_category(slug=generate_slug(category_obj.name))
+    return await CourseManager.update_course(slug,course_obj,current_profile,category)
 
 
 # *delete_course

@@ -7,6 +7,7 @@ from pydantic import BaseModel, PositiveFloat, PositiveInt
 
 #!Database models
 from models.course import Category, Wsl, Course
+from models.profile import Profile
 
 
 #!Python modules and functions
@@ -28,14 +29,14 @@ CourseInSchema = pydantic_model_creator(
     exclude=["slug", "author_id", "category_id", "wsl_id"],
 )
 CourseBaseSchema = pydantic_model_creator(
-    Course, name="Course", exclude=["modified_at"]
+    Course, name="Course", exclude=["modified_at",'author.password']
 )
 
 
 # *CourseOutSchema
 class CourseOutSchema(CourseBaseSchema):
-    author: ProfileOutSchema
-    category: CategoryOutSchema
+    author: pydantic_model_creator(Profile,name='CourseProfileOutSchema',exclude=["date_joined", "modified_at",'password'])
+    category: pydantic_model_creator(Category, name="CourseCategoryOutSchema")
 
 
 # *UpdateCourse

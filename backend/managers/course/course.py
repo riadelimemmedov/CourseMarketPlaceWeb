@@ -43,7 +43,7 @@ class CourseManager:
 
     # ?update_course
     @staticmethod
-    async def update_course(slug, course, current_profile) -> CourseOutSchema:
+    async def update_course(slug, course, current_profile,category) -> CourseOutSchema:
         try:
             db_course = await CourseOutSchema.from_queryset_single(
                 Course.get(slug=slug)
@@ -52,7 +52,7 @@ class CourseManager:
             raise HTTPException(status_code=404, detail=f"Course {slug} not found")
 
         if db_course.author_id == current_profile.id:
-            await Course.filter(slug=slug).update(**course.dict(exclude_unset=True))
+            await Course.filter(slug=slug).update(**course.dict(exclude_unset=True),category_id=category.id)
             return await CourseOutSchema.from_queryset_single(Course.get(slug=slug))
         raise HTTPException(status_code=403, detail=f"Not authorized to update course")
 

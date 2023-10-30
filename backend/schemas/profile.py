@@ -26,7 +26,7 @@ ProfileBaseSchema = pydantic_model_creator(
     exclude_readonly=True,
 )  # For creating new profile
 ProfileOutSchema = pydantic_model_creator(
-    Profile, name="ProfileOut", exclude=["date_joined", "modified_at", "password"]
+    Profile, name="ProfileOut", exclude=["date_joined", "modified_at"]
 )  # For retrieve profile information to client modified format
 ProfileDatabaseSchema = pydantic_model_creator(
     Profile, name="Profile", exclude=["date_joined", "modified_at"]

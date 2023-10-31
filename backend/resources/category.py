@@ -53,7 +53,6 @@ async def update_category(
     slug: str, category: CategoryUpdateSchema
 ) -> CategoryOutSchema:
     """Update category by slug"""
-    print("Category value is ", category)
     return await CategoryManager.update_category(slug, category)
 
 

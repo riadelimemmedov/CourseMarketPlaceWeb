@@ -18,6 +18,9 @@ from pydantic import BaseModel
 from typing import List
 from decouple import config
 
+#!Helpers methods
+from utils.helpers import generate_slug
+
 
 # *CourseManager
 class CourseManager:
@@ -50,10 +53,10 @@ class CourseManager:
             )
         except DoesNotExist:
             raise HTTPException(status_code=404, detail=f"Course {slug} not found")
-
-        if db_course.author_id == current_profile.id:
-            await Course.filter(slug=slug).update(**course.dict(exclude_unset=True),category_id=category.id)
-            return await CourseOutSchema.from_queryset_single(Course.get(slug=slug))
+        
+        if db_course.author.id == current_profile.id:
+            await Course.filter(slug=slug).update(**course.dict(exclude_unset=True),slug=generate_slug(course.title) if course.title is not None else db_course.slug,category_id=category.id if category is not None else db_course.category.id)
+            return await CourseOutSchema.from_queryset_single(Course.get(slug=generate_slug(course.title) if course.title is not None else db_course.slug  ))
         raise HTTPException(status_code=403, detail=f"Not authorized to update course")
 
     # ?delete_course
@@ -65,7 +68,7 @@ class CourseManager:
             )
         except DoesNotExist:
             raise HTTPException(status_code=404, detail=f"Course {slug} not found")
-        if db_course.author_id == current_profile.id:
+        if db_course.author.id == current_profile.id:
             deleted_course = await Course.filter(slug=slug).delete()
             if not deleted_course:
                 raise HTTPException(status_code=404, detail=f"Unable to delete course")

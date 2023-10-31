@@ -81,7 +81,7 @@ async def create_course(
 # *update_course
 @router.patch(
     "/courses/{slug}/",
-    dependencies=[Depends(get_current_user), Depends(is_teacher)],
+    dependencies=[Depends(get_current_user)],
     response_model=CourseOutSchema,
     responses={404: {"model": HTTPNotFoundError}},
     status_code=201,
@@ -93,7 +93,7 @@ async def update_course(
     current_profile: ProfileOutSchema = Depends(get_current_user),
 ) -> CourseOutSchema:
     """Update course"""
-    category = await CategoryManager.get_category(slug=generate_slug(category_obj.name))
+    category = await CategoryManager.get_category(slug=generate_slug(category_obj.name)) if category_obj.name is not None else None
     return await CourseManager.update_course(slug,course_obj,current_profile,category)
 
 
@@ -102,21 +102,20 @@ async def update_course(
     "/courses/{slug}/",
     response_model=Status,
     responses={404: {"model": HTTPNotFoundError}},
-    dependencies=[Depends(get_current_user), Depends(is_admin), Depends(is_teacher)],
-    status_code=201,
+    dependencies=[Depends(get_current_user), Depends(is_admin)],
 )
 async def delete_course(
     slug: str, current_profile: ProfileOutSchema = Depends(get_current_user)
-):
+) -> Status:
     """Delete course"""
-    pass
+    return await CourseManager.delete_course(slug,current_profile)
 
 
 # *delete_all_course
 @router.delete(
     "/courses/",
     response_model=Status,
-    dependencies=[Depends(get_current_user), Depends(is_admin), Depends(is_teacher)],
+    dependencies=[Depends(get_current_user), Depends(is_admin)],
     status_code=201,
 )
 async def delete_all_course():

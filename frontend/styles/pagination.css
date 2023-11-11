@@ -3,12 +3,14 @@
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+  margin-bottom: 40px !important;
+  margin-top: 40px !important;
 }
 
 .pagination li {
   list-style: none;
   margin-right: 10px;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
@@ -16,15 +18,15 @@
 }
 
 .pagination li.active {
-  background-color: grey;
+  background-color: #dfe6e9;
   color: #fff;
   border-color: transparent;
 }
 
 .pagination li:hover {
-  background-color: #007bff;
+  background-color: #4338ca;
   color: #fff;
-  border-color: #007bff;
+  border-color: #4338ca;
 }
 
 .pagination li.disabled {
@@ -35,7 +37,8 @@
 .pagination li a {
   display: block;
   padding: 5px;
-  color: #007bff;
+  color: black;
+  font-weight: bold;
   text-decoration: none;
 }
 

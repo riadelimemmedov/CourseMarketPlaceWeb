@@ -6,6 +6,7 @@ import { CourseList } from '@components/course'
 import { OrderCard } from '@components/order'
 import { BaseLayout } from '@components/layout'
 
+import axios from 'axios'
 
 
 //!Home
@@ -14,10 +15,6 @@ export default function Home() {
         <>
           <BaseLayout>
             <Hero/>
-            <Breadcrumbs/>
-            <Wallet/>
-            <Ethrate/>
-            <OrderCard/>
             <CourseList/>
           </BaseLayout>
         </>

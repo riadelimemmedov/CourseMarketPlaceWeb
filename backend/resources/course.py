@@ -37,7 +37,7 @@ router = APIRouter(tags=["Course"])
 @router.get(
     "/courses/",
     response_model=List[CourseOutSchema],
-    dependencies=[Depends(get_current_user)],
+    # dependencies=[Depends(get_current_user)],
     status_code=200,
 )  # dependencies=[Depends(oauth2_schema)] Add this when write this endpoint completly
 async def get_all_courses() -> CourseOutSchema:
@@ -49,7 +49,7 @@ async def get_all_courses() -> CourseOutSchema:
 @router.get(
     "/courses/{slug}",
     response_model=CourseOutSchema,
-    dependencies=[Depends(get_current_user)],
+    # dependencies=[Depends(get_current_user)],
     status_code=200,
 )
 async def get_course(slug: str) -> CourseOutSchema:

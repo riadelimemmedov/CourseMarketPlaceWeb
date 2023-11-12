@@ -2,7 +2,7 @@
 //!Footer
 export default function Footer(){
     return(
-        <footer className="bg-gray-900 pt-1">
+        <footer className="bg-gray-900 pt-1 mt-12">
             <div className="container mx-auto px-6">
                 <div className="mt-5 flex flex-col items-center">
                     <div className="py-6">

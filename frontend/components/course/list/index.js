@@ -28,7 +28,7 @@ export default function List(){
 
 
     //getAllCourses
-    const getAllCourses = async () => {
+    const get_all_courses = async () => {
         fetch(`${process.env.api_root_endpoint}/courses/`)
             .then((response) => response.json())
             .then((data) => {
@@ -43,8 +43,10 @@ export default function List(){
         setItemOffset(newOffset);
     };
 
+    
+    //useEffect
     useEffect(()=>{
-        getAllCourses()
+        get_all_courses()
     },[])
 
 
@@ -55,11 +57,13 @@ export default function List(){
                     <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div className="flex h-full w-full">
                             <div className="flex h-full w-full">
-                                <Image className="object-cover" src={course.cover_image} layout="fixed" width="200" height="230" alt={course.title} />
+                                <Link href={`/course/${course.slug}`}>
+                                    <Image className="object-cover" src={course.cover_image} layout="fixed" width="200" height="240" alt={course.title} />
+                                </Link>
                             </div>
                             <div className="p-8">
                                 <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{course.course_type}</div>
-                                <Link href="#" className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">{course.title}</Link>
+                                <Link href={`/course/${course.slug}`} className="block mt-1 text-lg leading-tight font-mediu">{course.title}</Link>
                                 <p className="mt-2 text-gray-500">{course.description}</p>
                             </div>
                         </div>

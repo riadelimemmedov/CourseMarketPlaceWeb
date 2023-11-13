@@ -45,6 +45,7 @@ class UpdateCourse(BaseModel):
     title: Optional[str]
     description: Optional[str]
     cover_image: Optional[str]
+    wsl : Optional[str]
     price: Optional[PositiveFloat]
     author: Optional[PositiveInt]  # ForeignKey
     category: Optional[PositiveInt]  # ForeignKey

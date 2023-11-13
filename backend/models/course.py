@@ -60,7 +60,8 @@ class Course(models.Model):
     category = fields.ForeignKeyField("models.Category", related_name="category_course")
     course_link = fields.CharField(max_length=200, unique=True)  # S3
     slug = fields.CharField(max_length=100, null=True, unique=True)
-    # wsl = fields.ForeignKeyField('models.Wsl',related_name='wsl_course')
+    # wsl = fields.ManyToManyField('models.Wsl',related_name='wsl_course')
+    wsl = fields.TextField(null=True)
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
 

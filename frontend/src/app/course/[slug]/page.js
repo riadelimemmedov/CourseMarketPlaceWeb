@@ -20,6 +20,7 @@ export default function Course({params}) {
         fetch(`${process.env.api_root_endpoint}/courses/${params.slug}`)
             .then((response) => response.json())
             .then((data) => {
+                data.wsl = data.wsl.split('.')
                 setCourse(data)
         })
     }
@@ -35,8 +36,8 @@ export default function Course({params}) {
             <div className="py-4">
                 <CourseHero title={course.title} description={course.description} cover_image={course.cover_image}/>
             </div>
-            <CourseKeypoints/>
-            <CourseCurriculum/>
+            <CourseKeypoints points={course.wsl}/>
+            <CourseCurriculum locked={true}/>
             <Modal/>
         </BaseLayout>
     )

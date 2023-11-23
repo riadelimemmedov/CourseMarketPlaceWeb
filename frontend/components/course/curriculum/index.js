@@ -1,5 +1,5 @@
 //!Curriculum
-export default function Curriculum(){
+export default function Curriculum({locked}){
     const lectures = [
         "How to init App",
         "How to get a help",
@@ -8,7 +8,9 @@ export default function Curriculum(){
         "How to write For Loops",
         "Safe operator",
         ]
-
+    const status_class = "px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+    
+    
     return(
         <section className="max-w-5xl mx-auto">
             <div className="flex flex-col">
@@ -36,18 +38,25 @@ export default function Curriculum(){
                                         <div className="flex items-center">
                                         <div className="ml-4">
                                             <div className="text-sm font-medium text-gray-900">
-                                            {lec}
+                                                {lec}
                                             </div>
                                         </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Unlocked
+                                        <span className={
+                                            `
+                                                ${locked ? "bg-red-100 text-red-800 " : "bg-green-100 text-green-800 "}
+                                                ${status_class}
+                                            `}
+                                        >
+                                            {locked ? 'Locked' : 'Unlocked'}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#" className="text-indigo-600 hover:text-indigo-900">Play</a>
+                                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                            {locked ? 'Get Accsess' : 'Play'}
+                                        </a>
                                     </td>
                                     </tr>
                                 )}

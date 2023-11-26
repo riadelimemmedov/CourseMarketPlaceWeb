@@ -1,8 +1,8 @@
 "use client"
 //!Custom components
-import {CourseHero,CourseCurriculum,CourseKeypoints} from '@components/course'
-import {Modal} from '@components/common'
-import { BaseLayout } from '@components/layout'
+import {CourseHero,CourseCurriculum,CourseKeypoints} from '@components/ui/course'
+import {Modal} from '@components/ui/common'
+import { BaseLayout } from '@components/ui/layout'
 
 
 //!React and Next js

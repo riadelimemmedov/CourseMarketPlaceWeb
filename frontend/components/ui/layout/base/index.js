@@ -1,5 +1,8 @@
+
 //!Custom components
-import { Navbar,Footer } from "@components/common"
+import { Navbar,Footer } from "@components/ui/common"
+
+
 
 
 //!BaseLayout

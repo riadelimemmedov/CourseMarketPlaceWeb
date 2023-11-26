@@ -9,7 +9,7 @@ import Link from 'next/link'
 import ReactPaginate from 'react-paginate';
 
 //!Pagination classess
-import '././../../../styles/pagination.css'
+import '../../../../styles/pagination.css'
 
 
 

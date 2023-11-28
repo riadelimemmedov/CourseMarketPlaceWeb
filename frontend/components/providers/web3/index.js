@@ -4,22 +4,20 @@
 import { createContext,useContext,useEffect, useMemo, useState } from "react";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { useRouter } from 'next/navigation'
 
-
-import { toast } from 'react-toastify'
+//!Notification
+import notification from '../../../utils/notification.js'
+import { setupHooks } from "./hooks/setupHooks.js";
 
 
 //?Web3Context
 const Web3Context = createContext(null)
 
 
-import { useRouter } from 'next/navigation'
-
-
 //*Web3Provider
 export default function Web3Provider({children}){
     const router = useRouter()
-
 
     const [web3Api,setWeb3Api] = useState({
         provider:null,
@@ -27,12 +25,6 @@ export default function Web3Provider({children}){
         contract:null,
         isLoading:true
     })
-    
-
-    //throwNotification
-    const throwNotification = (notification_message=null,notification_type=null) => {
-        notification_type === 'success' ? toast.success(`${notification_message}`) : notification_type === 'error' ? toast.error(`${notification_message}`) : notification_type === 'info' ? toast.info(`${notification_message}`) : null;
-    }
 
 
     //loadProvider
@@ -55,22 +47,24 @@ export default function Web3Provider({children}){
     //_web3Api
     const _web3Api = useMemo(() => {
         const {provider,web3,contract,isLoading} = web3Api
+
         return{
             ...web3Api,
             requireInstall: !isLoading && !web3,
+            getHooks:() => setupHooks(web3),
             connect:provider ? 
                 async (e) => {
                     try {
                         let accounts = await provider.request({method: "eth_requestAccounts"})
-                        accounts.length > 0 ? throwNotification('You have already connected','info') : null
+                        accounts.length > 0 ? notification.throwNotification('You have already connected','info') : null
                     }
                     catch(err){
-                        throwNotification('Please try again','error')
+                        notification.throwNotification('Please try again','error')
                         // router.reload(window.location.pathname)
                     }
                 }
                 :
-                () => toast.error("Please install metamask")
+                () => notification.throwNotification("Please install metamask",'info')
         }
     },[web3Api])
 
@@ -90,4 +84,10 @@ export default function Web3Provider({children}){
 //*useWeb3
 export function useWeb3(){
     return useContext(Web3Context)
+}
+
+//*useHooks
+export function useHooks(cb){
+    const {getHooks} = useWeb3()
+    return cb(getHooks())
 }

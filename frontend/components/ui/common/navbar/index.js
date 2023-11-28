@@ -3,17 +3,21 @@
 //!React and Next 
 import Link from 'next/link'
 
-import { useWeb3 } from '@components/providers/web3'
 
+//!Helpers functions
+import { useWeb3 } from '@components/providers/web3'
+import { useAccount } from '@components/web3/hooks/useAccount'
 
 
 //*Navbar
 export default function Navbar(){
-    const {connect,isLoading,error_code} = useWeb3()
+    const { connect,isLoading,error_code,web3} = useWeb3()
+    const {account}  = useAccount()
 
 
     return(
         <section>
+            <span>Is star web3 : </span> - <span className='text-green-500'>{account}</span>
             <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
                 <nav className="relative" aria-label="Global">
                     <div className="flex justify-between">
@@ -34,7 +38,7 @@ export default function Navbar(){
                         <div>
                             <a href="#" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Company</a>
                             
-                            <button onClick={connect} disabled={isLoading != true ? false : true}  className={`px-8 py-3 border rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 ${isLoading == true ? "disabled:opacity-50 disabled:cursor-not-allowed" : "" }`}>
+                            <button onClick={account == null ? connect : null} disabled={isLoading != true ? false : true}  className={`px-8 py-3 border rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 ${isLoading == true ? "disabled:opacity-50 disabled:cursor-not-allowed" : "" }`}>
                                 Connect Wallet
                             </button>
 
@@ -48,7 +52,6 @@ export default function Navbar(){
                                 </a>
                             </div>
                         </div>
-
 
                     </div>
                 </nav>

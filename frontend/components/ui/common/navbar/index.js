@@ -6,7 +6,8 @@ import Link from 'next/link'
 
 //!Helpers functions
 import { useWeb3 } from '@components/providers/web3'
-import { useAccount } from '@components/web3/hooks/useAccount'
+import { useAccount } from '@components/hooks/web3/useAccount'
+
 
 import Button from '../button'
 

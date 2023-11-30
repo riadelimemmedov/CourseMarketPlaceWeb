@@ -2,6 +2,7 @@
 
 //!React and Next 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 
 //!Helpers functions
@@ -9,6 +10,8 @@ import { useWeb3 } from '@components/providers/web3'
 import { useAccount } from '@components/hooks/web3/useAccount'
 
 
+
+//!Custom components
 import Button from '../button'
 
 
@@ -16,7 +19,10 @@ import Button from '../button'
 //*Navbar
 export default function Navbar(){
     const { connect,isLoading,error_code,web3} = useWeb3()
-    const {account}  = useAccount()
+    const { account }  = useAccount()
+
+    const pathname = usePathname()
+
 
     return(
         <section>
@@ -29,8 +35,8 @@ export default function Navbar(){
                                 Metaverse Planet Academy
                             </Link>
 
-                            <Link href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900">
-                                Marketplacecke
+                            <Link href="/marketplace" className="font-medium mr-8 text-gray-500 hover:text-gray-900">
+                                Marketplace
                             </Link>
 
                             <Link href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900">
@@ -71,7 +77,7 @@ export default function Navbar(){
                 </nav>
             </div>
             <div>
-                {account.data && 
+                {account.data && !pathname.includes('/marketplace') &&
                     <div className='flex justify-end pt-1 mr-11 sm:px-6 lg:px-8'>
                         <div className='text-white bg-indigo-600 rounded-md p-2'>
                             {account.data}

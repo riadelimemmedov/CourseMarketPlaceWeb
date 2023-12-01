@@ -56,15 +56,17 @@ export default function Web3Provider({children}){
                 async (e) => {
                     try {
                         let accounts = await provider.request({method: "eth_requestAccounts"})
-                        accounts.length > 0 ? notification.throwNotification('You have already connected','info') : null
+                        accounts.length > 0 ? notification.throwNotification('You have already connected','info',null) : null
                     }
                     catch(err){
-                        notification.throwNotification('Please try again','error')
+                        if(err.code && err.message){
+                            notification.throwNotification(`${err.message} Or click to Metamask extension.`,'info',`${err.code}`)    
+                        }
                         // router.reload(window.location.pathname)
                     }
                 }
                 :
-                () => notification.throwNotification("Please install metamask",'info')
+                () => notification.throwNotification("Please install metamask",'info',null)
         }
     },[web3Api])
 

@@ -12,12 +12,20 @@ import ReactPaginate from 'react-paginate';
 import '../../../../styles/pagination.css'
 
 
+//!Custom components
+import { CourseCard } from "@components/ui/course";
+import { Button, Spinner } from "@components/ui/common";
+
+//!Helpers functions
+import { useWeb3 } from "@components/providers/web3";
+
 
 //*List
 export default function List(){
     //state
     const [courses,setCourse] = useState([])
     const [itemOffset, setItemOffset] = useState(0);
+    const { isLoading } = useWeb3()
 
 
     //pagination
@@ -52,33 +60,33 @@ export default function List(){
 
     return(
         <>
-            <section className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
-                { current_courses.map((course, index) => 
-                    <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-                        <div className="flex h-full w-full">
-                            <div className="flex h-full w-full">
-                                <Link href={`/course/${course.slug}`}>
-                                    <Image className="object-cover" src={course.cover_image} layout="fixed" width="200" height="240" alt={course.title} />
-                                </Link>
-                            </div>
-                            <div className="p-8">
-                                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{course.course_type}</div>
-                                <Link href={`/course/${course.slug}`} className="block mt-1 text-lg leading-tight font-mediu">{course.title}</Link>
-                                <p className="mt-2 text-gray-500">{course.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </section>
-            <ReactPaginate
-                pageCount={pageCount} 
-                pageRangeDisplayed={5} 
-                marginPagesDisplayed={2} 
-                onPageChange={handlePageClick} 
-                containerClassName={'pagination'} 
-                activeClassName={'active'} 
-                disabled={true}
-            />
+            {
+                isLoading == false ?
+                <div>
+                    <section className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+                        { current_courses.map((course, index) => 
+                            <CourseCard course={course} index={index} Footer={() => (
+                                <div className="mt-4">
+                                    <Button className="pr-5 pl-5" variant="lightPurple">
+                                        Purchase
+                                    </Button>
+                                </div>
+                            )}/>
+                        )}
+                    </section>
+                    <ReactPaginate
+                        pageCount={pageCount} 
+                        pageRangeDisplayed={5} 
+                        marginPagesDisplayed={2} 
+                        onPageChange={handlePageClick} 
+                        containerClassName={'pagination'} 
+                        activeClassName={'active'} 
+                        disabled={true}
+                    />
+                </div>
+                :
+                <Spinner/>
+            }
         </>
     )
 }

@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/legacy/image"
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 //!Third party packages
 import ReactPaginate from 'react-paginate';
@@ -13,8 +14,30 @@ import ReactPaginate from 'react-paginate';
 import '../../../../styles/pagination.css'
 
 
-export default function Card(){
-    <>
-        <div>Hello from Card</div>
-    </>
+//*Card
+export default function Card({course,index,Footer}){
+    const pathname = usePathname()
+
+    //return jsx to client
+    return(
+        <div>
+            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                <div className="flex h-full w-full">
+                    <div className="flex h-full w-full">
+                        <Link href={`/course/${course.slug}`}>
+                            <Image className="object-cover" src={course.cover_image} layout="fixed" width="200" height="240" alt={course.title} />
+                        </Link>
+                    </div>
+                    <div className="p-8">
+                        <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{course.course_type}</div>
+                        <Link href={`/course/${course.slug}`} className="block mt-1 text-lg leading-tight font-mediu">{course.title}</Link>
+                        <p className="mt-2 text-gray-500">{course.description}</p>
+                        {Footer && pathname.includes('/marketplace') &&
+                            <Footer/>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }

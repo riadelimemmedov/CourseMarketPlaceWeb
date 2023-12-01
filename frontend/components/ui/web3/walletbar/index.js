@@ -1,7 +1,7 @@
 //!Wallet
-export default function Wallet({address,network}){
+export default function Wallet({address,network,web3,isLoading,Footer}){
     return(
-        <section className="text-white bg-indigo-600">
+        <section className="text-white bg-indigo-600 rounded-lg">
             <div className="p-8">
                 <h1 className="text-2xl">Hello, {address}</h1>
                 <h2 className="subtitle mb-5 text-xl">I hope you are having a great day!</h2>
@@ -14,7 +14,25 @@ export default function Wallet({address,network}){
                         </div>
                     </div>
                     <div>
-                        <div><span>Currently on </span><strong className="text-2xl">{network != undefined ? network.chainName : null}</strong></div>
+                        {
+                            network != undefined ? 
+                                <div>
+                                    <span>
+                                        Currently on &nbsp;
+                                    </span>
+                                    <strong className="text-2xl">
+                                        {network.chainName}
+                                    </strong>
+                                </div> 
+                                :(
+                                    isLoading == false && network == undefined && web3 == undefined ? 
+                                        <div className="bg-yellow-500 p-4 rounded-lg">
+                                            Cannot connect to network.Please install Metamask.
+                                        </div>
+                                    :
+                                    null
+                                )
+                        }
                     </div>
                 </div>
             </div>

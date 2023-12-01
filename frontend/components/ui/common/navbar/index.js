@@ -9,21 +9,17 @@ import { usePathname } from 'next/navigation'
 import { useWeb3 } from '@components/providers/web3'
 import { useAccount } from '@components/hooks/web3/useAccount'
 
-
-
 //!Custom components
-import Button from '../button'
-
-
+import {Button} from '@components/ui/common'
 
 //*Navbar
 export default function Navbar(){
     const { connect,isLoading,error_code,web3} = useWeb3()
     const { account }  = useAccount()
-
     const pathname = usePathname()
 
 
+    //return jsx to client
     return(
         <section>
             <span>Is star web3 : </span> - <span className='text-green-500'>{account.data}</span>
@@ -46,21 +42,20 @@ export default function Navbar(){
 
                         <div>
                             <a href="#" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Company</a>
-                            
                             {
                                 isLoading ? 
-                                    <Button disabled={true} onClick={connect} className="cursor-default w-40">
+                                    <Button disabled={true} onClick={connect} className="cursor-pointer w-40">
                                         Loading...
                                     </Button>
                                 :
                                     web3 ? account.data ?
-                                    <Button hoverable={false} className="cursor-default w-40">
+                                    <Button hoverable={false} className="cursor-pointer w-40">
                                         Hi there {account.isAdmin && "- Admin"}
                                     </Button>
                                 :
-                                    <Button onClick={connect} className="cursor-default w-40">Connect</Button>
+                                    <Button onClick={connect} className="cursor-pointer w-40">Connect</Button>
                                 :
-                                    <Button onClick={() => window.open("https://metamask.io/download.html")} className="cursor-default w-40">Install Metamask</Button>
+                                    <Button onClick={() => window.open("https://metamask.io/download.html")} className="cursor-pointer w-40">Install Metamask</Button>
                             }
                             
                             <div class="flex justify-center md:inline pl-7">

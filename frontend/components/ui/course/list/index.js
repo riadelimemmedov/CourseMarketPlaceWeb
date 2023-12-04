@@ -66,7 +66,7 @@ export default function List(){
                     <section className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
                         { current_courses.map((course, index) => 
                             <CourseCard course={course} index={index} Footer={() => (
-                                <div className="mt-4">
+                                <div className="mt-20">
                                     <Button className="pr-5 pl-5" variant="lightPurple">
                                         Purchase
                                     </Button>

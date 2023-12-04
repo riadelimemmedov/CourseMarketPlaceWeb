@@ -23,15 +23,15 @@ export default function Card({course,index,Footer}){
         <div>
             <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                 <div className="flex h-full w-full">
-                    <div className="flex h-full w-full">
+                    <div className="flex-1 h-full w-full">
                         <Link href={`/course/${course.slug}`}>
-                            <Image className="object-cover" src={course.cover_image} layout="fixed" width="200" height="240" alt={course.title} />
+                            <Image className="object-cover" src={course.cover_image} layout="responsive" width="200" height="230" alt={course.title} />
                         </Link>
                     </div>
-                    <div className="p-8">
+                    <div className="p-8 flex-1">
                         <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{course.course_type}</div>
                         <Link href={`/course/${course.slug}`} className="block mt-1 text-lg leading-tight font-mediu">{course.title}</Link>
-                        <p className="mt-2 text-gray-500">{course.description}</p>
+                        <p className="mt-2 text-gray-500">{course.description.substring(0,70)}...</p>
                         {Footer && pathname.includes('/marketplace') &&
                             <Footer/>
                         }

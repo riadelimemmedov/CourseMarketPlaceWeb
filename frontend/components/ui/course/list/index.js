@@ -15,6 +15,8 @@ import '../../../../styles/pagination.css'
 //!Custom components
 import { CourseCard } from "@components/ui/course";
 import { Button, Spinner } from "@components/ui/common";
+import { OrderModal } from "@components/ui/order";
+
 
 //!Helpers functions
 import { useWeb3 } from "@components/providers/web3";
@@ -23,6 +25,7 @@ import { useWeb3 } from "@components/providers/web3";
 //*List
 export default function List(){
     //state
+    const [selectedCourse,setSelectedCourse] = useState(null)
     const [courses,setCourse] = useState([])
     const [itemOffset, setItemOffset] = useState(0);
     const { isLoading } = useWeb3()
@@ -50,7 +53,6 @@ export default function List(){
         const newOffset = (event.selected * itemsPerPage) % courses.length;
         setItemOffset(newOffset);
     };
-
     
     //useEffect
     useEffect(()=>{
@@ -67,12 +69,16 @@ export default function List(){
                         { current_courses.map((course, index) => 
                             <CourseCard course={course} index={index} Footer={() => (
                                 <div className="mt-20">
-                                    <Button className="pr-5 pl-5" variant="lightPurple">
+                                    <Button onClick={() => setSelectedCourse(course)} className="pr-5 pl-5" variant="lightPurple">
                                         Purchase
                                     </Button>
                                 </div>
                             )}/>
                         )}
+                        {
+                            selectedCourse &&
+                                <OrderModal course={selectedCourse} onClose={() => setSelectedCourse(null)}/>
+                        }
                     </section>
                     <ReactPaginate
                         pageCount={pageCount} 

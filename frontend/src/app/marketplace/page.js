@@ -17,7 +17,7 @@ import { useState } from 'react'
 
 
 //*Home
-export default function Marketplace({courses}) {
+export default function Marketplace({course}) {
     const { account } = useAccount()
     const { network }  = useNetwork()
     const { connect,isLoading,error_code,web3} = useWeb3()
@@ -30,7 +30,6 @@ export default function Marketplace({courses}) {
                     <Wallet address={account.data} network={network.data} web3={web3} isLoading={isLoading}/>
                 </div>
                 <CourseList/>
-                <OrderModal/>
             </BaseLayout>
         </>
     )

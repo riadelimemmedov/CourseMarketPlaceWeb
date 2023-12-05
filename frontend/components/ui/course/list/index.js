@@ -20,6 +20,7 @@ import { OrderModal } from "@components/ui/order";
 
 //!Helpers functions
 import { useWeb3 } from "@components/providers/web3";
+import { useEthPrice } from "@components/hooks/useEthPrice";
 
 
 //*List
@@ -29,6 +30,7 @@ export default function List(){
     const [courses,setCourse] = useState([])
     const [itemOffset, setItemOffset] = useState(0);
     const { isLoading } = useWeb3()
+    const { eth } = useEthPrice()
 
 
     //pagination
@@ -60,20 +62,24 @@ export default function List(){
     },[])
 
 
+    //return jsx to client
     return(
         <>
             {
                 isLoading == false ?
                 <div>
                     <section className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
-                        { current_courses.map((course, index) => 
-                            <CourseCard course={course} index={index} Footer={() => (
-                                <div className="mt-20">
-                                    <Button onClick={() => setSelectedCourse(course)} className="pr-5 pl-5" variant="lightPurple">
-                                        Purchase
-                                    </Button>
-                                </div>
-                            )}/>
+                        { current_courses.map((course, index) =>
+                            <>
+                                <CourseCard course={course} index={index} Footer={() => (
+                                    <div className="mt-20 flex flex-1 items-stretch text-center">
+                                        <Button onClick={() => setSelectedCourse(course)} className="pr-5 pl-5 flex items-center" variant="lightPurple">
+                                            Purchase Now -  <span className="font-bold"> &nbsp; {eth.data ? (course.price / eth.data).toFixed(5) : 'Loading...'} </span>
+                                            <Image layout="fixed" height="35" width="35" src="https://raw.githubusercontent.com/Jerga99/eth-marketplace-course/main/public/small-eth.webp"/>
+                                        </Button>
+                                    </div>
+                                )}/>
+                            </>
                         )}
                         {
                             selectedCourse &&

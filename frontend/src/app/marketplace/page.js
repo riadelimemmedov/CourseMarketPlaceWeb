@@ -12,7 +12,7 @@ import { BaseLayout } from '@components/ui/layout'
 import { useWeb3 } from '@components/providers/web3'
 import { useAccount } from '@components/hooks/web3/useAccount'
 import { useNetwork } from '@components/hooks/web3/useNetwork'
-import { useState } from 'react'
+import { useEthPrice } from '@components/hooks/useEthPrice'
 
 
 
@@ -21,6 +21,7 @@ export default function Marketplace({course}) {
     const { account } = useAccount()
     const { network }  = useNetwork()
     const { connect,isLoading,error_code,web3} = useWeb3()
+    const { eth } = useEthPrice()
 
     //return jsx to client
     return (
@@ -28,6 +29,7 @@ export default function Marketplace({course}) {
             <BaseLayout>
                 <div className="py-4">
                     <Wallet address={account.data} network={network.data} web3={web3} isLoading={isLoading}/>
+                    <Ethrate eth={eth.data}/>
                 </div>
                 <CourseList/>
             </BaseLayout>

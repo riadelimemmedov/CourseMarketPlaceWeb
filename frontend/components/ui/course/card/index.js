@@ -25,7 +25,7 @@ export default function Card({course,index,Footer}){
                 <div className="flex h-full w-full">
                     <div className="flex-1 h-full w-full">
                         <Link href={`/course/${course.slug}`}>
-                            <Image className="object-cover" src={course.cover_image} layout="responsive" width="200" height="230" alt={course.title} />
+                            <Image className="object-cover" src={course.cover_image} layout="responsive" width="200" height="260" alt={course.title} />
                         </Link>
                     </div>
                     <div className="p-8 flex-1">

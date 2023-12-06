@@ -1,11 +1,20 @@
-//!Wallet
-export default function Wallet({address,network,web3,isLoading,Footer}){
+//!Helpers methods
+import { useWeb3 } from "@components/providers/web3"
+import { useWalletInfo } from "@components/providers/web3/hooks/useWalletInfo"
+
+
+//*Wallet
+export default function Wallet(){
+    const {account,network,isCanPurchaseCourse} = useWalletInfo()
+    const { connect,isLoading,error_code,web3} = useWeb3()
+
+
 
     //return jsx to client
     return(
         <section className="text-white bg-indigo-600 rounded-lg">
             <div className="p-8">
-                <h1 className="text-2xl">Hello, {address}</h1>
+                <h1 className="text-2xl">Hello, {account.data}</h1>
                 <h2 className="subtitle mb-5 text-xl">I hope you are having a great day!</h2>
                 <div className="flex justify-between items-center">
                     <div className="sm:flex sm:justify-center lg:justify-start">
@@ -17,14 +26,14 @@ export default function Wallet({address,network,web3,isLoading,Footer}){
                     </div>
                     <div>
                         {
-                            network !== undefined && (
-                                network.isSupported ? (
+                            network.data !== undefined && (
+                                network.data.isSupported ? (
                                     <div>
                                         <span>
                                             Currently on &nbsp;
                                         </span>
                                         <strong className="text-2xl">
-                                            {network.chainName}
+                                            {network.data.chainName}
                                         </strong>
                                     </div>
                             ) : (
@@ -33,7 +42,7 @@ export default function Wallet({address,network,web3,isLoading,Footer}){
                                     <div>
                                         Connect to: {` `}
                                         <strong className="text-2xl">
-                                        Sepolia
+                                            Sepolia
                                         </strong>
                                     </div>
                                 </div>
@@ -41,7 +50,7 @@ export default function Wallet({address,network,web3,isLoading,Footer}){
                             )
                         }
                         {
-                            isLoading == false && network === undefined && web3 === null && (
+                            isLoading == false && network.data === undefined && web3 === null && (
                                 <div className="bg-yellow-500 p-4 rounded-lg">
                                     Cannot connect to network. Please install Metamask.
                                 </div>

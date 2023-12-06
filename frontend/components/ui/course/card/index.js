@@ -15,7 +15,7 @@ import '../../../../styles/pagination.css'
 
 
 //*Card
-export default function Card({course,index,Footer}){
+export default function Card({course,index,disabled,Footer}){
     const pathname = usePathname()
 
     //return jsx to client
@@ -25,7 +25,7 @@ export default function Card({course,index,Footer}){
                 <div className="flex h-full w-full">
                     <div className="flex-1 h-full w-full">
                         <Link href={`/course/${course.slug}`}>
-                            <Image className="object-cover" src={course.cover_image} layout="responsive" width="200" height="260" alt={course.title} />
+                            <Image className={`object-cover ${disabled && "filter grayscale"}`} src={course.cover_image} layout="responsive" width="200" height="280" alt={course.title} />
                         </Link>
                     </div>
                     <div className="p-8 flex-1">

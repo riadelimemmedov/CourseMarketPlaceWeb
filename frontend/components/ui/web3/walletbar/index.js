@@ -1,5 +1,7 @@
 //!Wallet
 export default function Wallet({address,network,web3,isLoading,Footer}){
+
+    //return jsx to client
     return(
         <section className="text-white bg-indigo-600 rounded-lg">
             <div className="p-8">
@@ -15,23 +17,35 @@ export default function Wallet({address,network,web3,isLoading,Footer}){
                     </div>
                     <div>
                         {
-                            network != undefined ? 
-                                <div>
-                                    <span>
-                                        Currently on &nbsp;
-                                    </span>
-                                    <strong className="text-2xl">
-                                        {network.chainName}
-                                    </strong>
-                                </div> 
-                                :(
-                                    isLoading == false && network == undefined && web3 == undefined ? 
-                                        <div className="bg-yellow-500 p-4 rounded-lg">
-                                            Cannot connect to network.Please install Metamask.
-                                        </div>
-                                    :
-                                    null
-                                )
+                            network !== undefined && (
+                                network.isSupported ? (
+                                    <div>
+                                        <span>
+                                            Currently on &nbsp;
+                                        </span>
+                                        <strong className="text-2xl">
+                                            {network.chainName}
+                                        </strong>
+                                    </div>
+                            ) : (
+                                <div className="bg-red-400 p-4 rounded-lg">
+                                    <div>Connected to wrong network</div>
+                                    <div>
+                                        Connect to: {` `}
+                                        <strong className="text-2xl">
+                                        Sepolia
+                                        </strong>
+                                    </div>
+                                </div>
+                            )
+                            )
+                        }
+                        {
+                            isLoading == false && network === undefined && web3 === null && (
+                                <div className="bg-yellow-500 p-4 rounded-lg">
+                                    Cannot connect to network. Please install Metamask.
+                                </div>
+                            )
                         }
                     </div>
                 </div>

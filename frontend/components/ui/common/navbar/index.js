@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 
 //!Helpers functions
 import { useWeb3 } from '@components/providers/web3'
-import { useAccount } from '@components/hooks/web3/useAccount'
+import { useWalletInfo } from '@components/providers/web3/hooks/useWalletInfo'
 
 //!Custom components
 import {Button} from '@components/ui/common'
@@ -15,7 +15,8 @@ import {Button} from '@components/ui/common'
 //*Navbar
 export default function Navbar(){
     const { connect,isLoading,error_code,web3} = useWeb3()
-    const { account }  = useAccount()
+    const {account,network} = useWalletInfo()
+
     const pathname = usePathname()
 
 

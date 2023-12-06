@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import daisyui from 'daisyui'
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,8 +15,9 @@ module.exports = {
       },
       maxWidth:{
         "8xl": "1920px"
-      }
+      },
     },
   },
   plugins: [],
+  plugins: [daisyui],
 }

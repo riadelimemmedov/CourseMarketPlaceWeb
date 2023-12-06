@@ -16,12 +16,12 @@ export default function Home() {
   let {provider,web3,contract,isLoading} = useWeb3()
 
   return (
-        <>
+        <div id="base_layout">
           <BaseLayout>
             {isLoading ? 'Web3 is loading...' : web3 ? 'Web3 is ready' : 'Please install metamask'}
             <Hero/>
             <CourseList/>
           </BaseLayout>
-        </>
+        </div>
   )
 }

@@ -10,18 +10,16 @@ import { BaseLayout } from '@components/ui/layout'
 
 //!Helpers functions and methods
 import { useWeb3 } from '@components/providers/web3'
-import { useAccount } from '@components/hooks/web3/useAccount'
-import { useNetwork } from '@components/hooks/web3/useNetwork'
 import { useEthPrice } from '@components/hooks/useEthPrice'
-
+import { useWalletInfo } from '@components/providers/web3/hooks/useWalletInfo'
 
 
 //*Home
 export default function Marketplace({course}) {
-    const { account } = useAccount()
-    const { network }  = useNetwork()
+    const {account,network,isCanPurchaseCourse} = useWalletInfo()
     const { connect,isLoading,error_code,web3} = useWeb3()
     const { eth } = useEthPrice()
+
 
     //return jsx to client
     return (

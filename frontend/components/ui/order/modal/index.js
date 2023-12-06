@@ -6,6 +6,14 @@ import { useEffect, useState } from "react"
 export default function OrderModal({course,onClose}){
     const [isOpen, setIsOpen] = useState(false)
 
+
+    //closeModal
+    const closeModal = () => {
+        setIsOpen(false)
+        onClose()
+    }
+
+    //useEffect
     useEffect(() => {
         if(!!course){//If course not null convert to true or if course is null pass the if condition
             setIsOpen(true)
@@ -13,11 +21,7 @@ export default function OrderModal({course,onClose}){
     },[course])
 
 
-    const closeModal = () => {
-        setIsOpen(false)
-        onClose()
-    }
-
+    //return jsx to client
     return (
         <>
             <Modal isOpen={isOpen}>
@@ -25,9 +29,10 @@ export default function OrderModal({course,onClose}){
                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 className="mb-7 text-sm font-bold leading-6 text-gray-600" id="modal-title">
+                                <h3 className="mb-7 text-sm font-bold leading-6 text-blue-500" id="modal-title">
                                     {course.title}
                                 </h3>
+                                <hr />
                         <div className="mt-2 relative rounded-md">
                             <div className="mb-1">
                                 <label className="mb-2 font-bold">Price(eth)</label>

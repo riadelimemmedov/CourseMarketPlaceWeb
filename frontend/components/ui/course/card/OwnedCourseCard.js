@@ -1,5 +1,5 @@
-//!Card
-export default function Card(){
+//*Card
+export default function OwnedCourseCard(){
     return(
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-3">
         <div className="px-4 py-5 sm:px-6">

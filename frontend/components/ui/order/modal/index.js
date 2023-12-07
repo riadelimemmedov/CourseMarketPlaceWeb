@@ -2,23 +2,42 @@
 import { Button, Modal } from "@components/ui/common"
 import { useEffect, useState } from "react"
 
+
+//!Helpers methods
+import convert from "utils/convert_eth"
+
+
+//defaultOrder
+const defaultOrder = {
+    price:"",
+    email:"",
+    confirmationEmail:""
+}
+
 //*OrderModal
-export default function OrderModal({course,onClose}){
+export default function OrderModal({course,eth,onClose}){
     const [isOpen, setIsOpen] = useState(false)
+    const [order,setOrder] = useState(defaultOrder)
 
 
     //closeModal
     const closeModal = () => {
         setIsOpen(false)
+        setOrder(defaultOrder)
         onClose()
     }
 
     //useEffect
     useEffect(() => {
         if(!!course){//If course not null convert to true or if course is null pass the if condition
+            let price = convert(eth,course)
             setIsOpen(true)
+            setOrder({
+                ...defaultOrder,
+                price: price
+            })
         }
-    },[course])
+    },[course,eth.data])
 
 
     //return jsx to client
@@ -47,10 +66,12 @@ export default function OrderModal({course,onClose}){
                                 </div>
                             </div>
                             <input
+                                value={order.price}
                                 type="text"
                                 name="price"
                                 id="price"
-                                className="disabled:opacity-50 w-80 mb-1 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+                                disabled={true}
+                                className="disabled:opacity-50 focus:outline-none w-80 mb-1 text-red-900 font-bold focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 border rounded-md"
                             />
                             <p className="text-xs text-gray-700 mt-2">
                                 Price will be verified at the time of the order. If the price will be lower, order can be declined (+- 2% slipage is allowed)
@@ -64,7 +85,7 @@ export default function OrderModal({course,onClose}){
                                 type="email"
                                 name="email"
                                 id="email"
-                                className="w-80 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md"
+                                className="w-80 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 border rounded-md"
                                 placeholder="x@y.com"
                             />
                             <p className="text-xs text-gray-700 mt-2">
@@ -79,7 +100,7 @@ export default function OrderModal({course,onClose}){
                                 type="email"
                                 name="confirmationEmail"
                                 id="confirmationEmail"
-                                className="w-80 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md" placeholder="x@y.com" />
+                                className="w-80 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 border rounded-md" placeholder="x@y.com" />
                         </div>
                         <div className="text-xs text-gray-700 flex">
                             <label className="flex items-center mr-2">

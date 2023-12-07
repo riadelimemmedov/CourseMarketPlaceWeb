@@ -21,5 +21,6 @@ export const useEthPrice = (course_price=null) => {
         fetcher,
         {refreshInterval:10000 }
     )
+    console.log('Ethreum price... ', data)
     return {eth:{data,...rest}}
 }

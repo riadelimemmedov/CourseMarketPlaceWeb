@@ -13,7 +13,9 @@ export default function OwnedCourses () {
         return (
             <>
                 <BaseLayout>
-                    <Header/>
+                    <div className="py-4">
+                        <Header/>
+                    </div>
                     <section className="grid grid-cols-1">
                         <OwnedCourseCard/>
                     </section>

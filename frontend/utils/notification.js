@@ -11,5 +11,4 @@ const throwNotification = (notification_message=null,notification_type=null,noti
         notification_type === 'success' ? toast.success(`${notification_message}`) : notification_type === 'error' ? toast.error(`${notification_message}`) : notification_type === 'info' ? toast.info(`${notification_message}`) : null;
     }
 }
-
 export default {throwNotification}

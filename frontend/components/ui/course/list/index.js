@@ -16,7 +16,7 @@ import '../../../../styles/pagination.css'
 
 //!Custom components
 import { CourseCard } from "@components/ui/course";
-import { BetaModal, Button, Spinner } from "@components/ui/common";
+import { BetaModal, Button, CoursePrice, Spinner } from "@components/ui/common";
 import { OrderModal } from "@components/ui/order";
 
 
@@ -79,7 +79,7 @@ export default function List(){
                                     <CourseCard course={course} index={index} disabled={!isCanPurchaseCourse} Footer={() => (
                                         <div className="mt-20 flex flex-1 items-stretch text-center">
                                             <Button onClick={() => setSelectedCourse(course)} className="pr-5 pl-5 pt-3 pb-3 mt-8 flex items-center" variant="lightPurple" disabled={!isCanPurchaseCourse}>
-                                                Purchase Now -  <span className="font-bold"> &nbsp; {eth.data ? (course.price / eth.data).toFixed(5) : 'Loading...'} </span>
+                                                Purchase Now - <CoursePrice eth={eth} course={course} />
                                                 <Image layout="fixed" height="35" width="35" src="https://raw.githubusercontent.com/Jerga99/eth-marketplace-course/main/public/small-eth.webp"/>
                                             </Button>
                                         </div>
@@ -88,7 +88,7 @@ export default function List(){
                             )}
                             {
                                 selectedCourse &&
-                                    <OrderModal course={selectedCourse} onClose={() => setSelectedCourse(null)}/>
+                                    <OrderModal eth={eth} course={selectedCourse} onClose={() => setSelectedCourse(null)}/>
                             }
                         </section>
                         <ReactPaginate

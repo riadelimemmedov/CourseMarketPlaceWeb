@@ -12,7 +12,9 @@ export default function ManageCourses () {
         return (
             <>
                 <BaseLayout>
-                    <Header/>
+                    <div className="py-4">
+                        <Header/>
+                    </div>
                     <section className="grid grid-cols-1">
                         <OwnedCourseCard/>
                     </section>

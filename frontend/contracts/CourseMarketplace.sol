@@ -31,6 +31,9 @@ contract CourseMarketPlace {
     ///Course has already a Owner!
     error CourseHasOwner();
 
+    /// Only owner has an access!
+    error OnlyOwner();
+
     //Adress of the owner of the contract
     address payable private owner;
 
@@ -74,6 +77,12 @@ contract CourseMarketPlace {
         return ownedCourses[courseHash];
     }
 
+    // get contract owner well you now who ise deploy this contract
+    function getContractOwner() public view returns (address) {
+        return owner;
+    }
+
+    //check course is already i
     function hasCourseOwnerShip(
         bytes32 courseHash
     ) private view returns (bool) {
@@ -82,5 +91,16 @@ contract CourseMarketPlace {
 
     function setContractOwner(address newOwner) private {
         owner = payable(newOwner);
+    }
+
+    function transferOwnerShip(address newOwner) external onlyOwner {
+        setContractOwner(newOwner);
+    }
+
+    modifier onlyOwner() {
+        if (msg.sender != getContractOwner()) {
+            revert OnlyOwner();
+        }
+        _;
     }
 }

@@ -2,7 +2,6 @@
 
 //!React and Next
 import { createContext,useContext,useEffect, useMemo, useState } from "react";
-import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useRouter } from 'next/navigation'
 
@@ -10,14 +9,17 @@ import { useRouter } from 'next/navigation'
 import notification from '../../../utils/notification.js'
 import { setupHooks } from "./hooks/setupHooks.js";
 
+//!Contract
+import {loadContractData} from "@utils/contract/loadContractData"
+
 
 //?Web3Context
 const Web3Context = createContext(null)
 
-
 //*Web3Provider
 export default function Web3Provider({children}){
     const router = useRouter()
+
 
     const [web3Api,setWeb3Api] = useState({
         provider:null,
@@ -31,13 +33,23 @@ export default function Web3Provider({children}){
     const loadProvider = async () => {
         const provider = await detectEthereumProvider()
         if(provider){
-            const web3 = new Web3(provider)
-            setWeb3Api({
-                provider:provider,
-                web3:web3,
-                contract: null,
-                isLoading: false
-            })
+            const contract_data = await loadContractData()
+            
+            if (typeof window.ethereum !== 'undefined' && window.ethereum.selectedAddress !== null) {
+                // User is logged in to MetaMask
+                setWeb3Api({
+                    provider:provider,
+                    web3:contract_data.web3,
+                    contract: contract_data.contract,
+                    isLoading: false
+                })
+                console.log('User is logged in');
+            } else {
+                // User is not logged in to MetaMask
+                alert('Please connect to Metamask first')
+                console.log('User is not logged in');
+            }
+            console.log('Contract data: ', contract_data)
         }   
         else{
             setWeb3Api(api => ({...api,isLoading:false}))
@@ -72,6 +84,24 @@ export default function Web3Provider({children}){
 
 
     useEffect(() => {
+        const setAccountListener = async()=>{
+            const provider = await detectEthereumProvider()
+            provider._jsonRpcConnection.events.on('notification',(payload) => {
+              const { method,params } = payload
+    
+              if(params.isUnlocked===false){
+                  window.location.reload()
+              }
+              else if(params.isUnlocked===true){
+                  window.location.reload()
+              }
+      
+              // if(method === 'metamask_unlockStateChanged'){
+              //   toast.success('Logged out successfully')
+              // }
+            })
+          }
+          setAccountListener()
         loadProvider()
     },[])
 

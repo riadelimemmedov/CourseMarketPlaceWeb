@@ -30,7 +30,7 @@ const createFormState = ({price,email},hasAgreedTOS) => {
 
 
 //*OrderModal
-export default function OrderModal({course,eth,onClose}){
+export default function OrderModal({course,eth,onClose,onSubmit}){
     const [isOpen, setIsOpen] = useState(false)
     const [order,setOrder] = useState(defaultOrder)
     const [formState,setFormState] = useState({})
@@ -62,7 +62,7 @@ export default function OrderModal({course,eth,onClose}){
     const createOrder = () => {
         let form_state = createFormState(order,hasAgreedTOS)
         setFormState(form_state)
-        console.log('Order created successfully')
+        onsubmit(order,course)
     }
 
 

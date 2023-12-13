@@ -32,7 +32,7 @@ export default function List(){
     const [selectedCourse,setSelectedCourse] = useState(null)
     const [courses,setCourse] = useState([])
     const [itemOffset, setItemOffset] = useState(0);
-    const { isLoading } = useWeb3()
+    const { isLoading,web3 } = useWeb3()
     const { eth } = useEthPrice()
     const {account,network,isCanPurchaseCourse} = useWalletInfo()
 
@@ -59,6 +59,11 @@ export default function List(){
         const newOffset = (event.selected * itemsPerPage) % courses.length;
         setItemOffset(newOffset);
     };
+
+
+    const purchaseCourse = (order,course) => {
+        console.log('Order purchased course ', order);
+    }
 
 
     //useEffect
@@ -88,7 +93,7 @@ export default function List(){
                             )}
                             {
                                 selectedCourse &&
-                                    <OrderModal eth={eth} course={selectedCourse} onClose={() => setSelectedCourse(null)}/>
+                                    <OrderModal eth={eth} onSubmit={purchaseCourse} course={selectedCourse} onClose={() => setSelectedCourse(null)}/>
                             }
                         </section>
                         <ReactPaginate

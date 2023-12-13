@@ -17,7 +17,7 @@ async function main() {
 
   //Logging deployer account address and deployer account balance on terminal
   console.log('Deployer is ', deployer.getAddress())
-  console.log('Deployer address balance is ', account_balance)
+  console.log('Deployer address balance is ', hre.ethers.utils.formatEther(account_balance))
 
   //Deploy contract
   const contracts = await hre.ethers.getContractFactory('CourseMarketPlace')
@@ -32,6 +32,11 @@ async function main() {
   //Get sender user addresss,well you know who deploy that is contract
   const receipt = await contract.deployTransaction.wait() // Line of code is waiting for the deployment transaction to be included in six blocks on the Ethereum blockchain. This is done to ensure that the transaction has sufficient confirmations, which helps to ensure the transaction will not be reversed and more secure.
   console.log('Deployed receipt is ', receipt.from)
+
+
+
+  //Send deployed contract credentials to setDeployContract function
+  const deployedContract = await setDeployContract(contract.interface.format('json'),contracts.bytecode,contract.address, hre.network.name, receipt.from)
 
 
   //Verify source code in etherscan
@@ -65,3 +70,24 @@ const validateMain = async () => {
 
 //Cal the validateMain function validate contract is deployed successfully or not by from hardhat.
 validateMain()
+
+
+//!setDeployContract
+async function setDeployContract(abi,bytecode,address, network, receipt) {
+  const contractData = {
+    abi,
+    bytecode,
+    address,
+    'network': hre.network.name,
+    'deployer': receipt
+  }
+  if (network == 'localhost') {
+    const filePath = "./data/CourseMarketPlaceLocal.json"
+    fs.writeFileSync(filePath, JSON.stringify(contractData))
+    console.log('Our contract deployed --- LOCALHOST ---')
+  } else {
+    const filePath = "./data/CourseMarketplaceRemote.json"
+    fs.writeFileSync(filePath, JSON.stringify(contractData))
+    console.log('Our contract deployed --- REMOTE ---')
+  }
+}

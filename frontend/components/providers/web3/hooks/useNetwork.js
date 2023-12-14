@@ -10,6 +10,7 @@ const find = require("@raiddotfarm/get-chain-name");
 //network_whitelist
 const network_whitelist = [
     'GoChain Testnet',
+    'Geth Testnet'
 ]
 
 

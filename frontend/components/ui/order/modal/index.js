@@ -62,7 +62,8 @@ export default function OrderModal({course,eth,onClose,onSubmit}){
     const createOrder = () => {
         let form_state = createFormState(order,hasAgreedTOS)
         setFormState(form_state)
-        onsubmit(order,course)
+        onSubmit(order,course)
+        order.email = ''
     }
 
 

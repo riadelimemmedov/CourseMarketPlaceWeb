@@ -98,7 +98,7 @@ export default function List(){
             const result = await contract.methods.purchaseCourse(
                 bytes16Value,
                 proof
-            ).send({from: account.data, value})
+            ).send({from: account.data, value:value, gas:'4712388'})
             console.log(result)
         } catch(err) {
             console.error("Purchase course: Operation has failed.", err)

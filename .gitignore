@@ -740,6 +740,7 @@ package-lock.json
 cache
 
 data
+/public/contracts
 
 
 # End of https://www.toptal.com/developers/gitignore/api/solidity,soliditytruffle

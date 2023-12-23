@@ -56,7 +56,7 @@ export default function Web3Provider({children}){
         return{
             ...web3Api,
             requireInstall: !isLoading && !web3,
-            getHooks:() => setupHooks(web3,provider),
+            getHooks:() => setupHooks(web3,provider,contract),
             connect:provider ? 
                 async (e) => {
                     try {

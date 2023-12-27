@@ -30,6 +30,7 @@ export default function OwnedCourses () {
         }
 
         const ownedCourses = useOwnedCourses(courses,account)
+        console.log('Ownercourses ', ownedCourses.data)
 
 
         useEffect(() => {

@@ -61,49 +61,84 @@ export default function List(){
     };
 
     const purchaseCourse = async order => {
-        const hexCourseId = web3.utils.utf8ToHex(String(selectedCourse.id))
-        
+        const hexCourseId = web3.utils.utf8ToHex(selectedCourse.id.toString());
         const orderHash = web3.utils.soliditySha3(
-            { type: "bytes16", value: Number(hexCourseId)},
-            { type: "address", value: account.data }
-        )   
-
-        console.log("🚀 ~ file: index.js:70 ~ purchaseCourse ~ orderHash:", orderHash)
-        
-        let random_number = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-
-        let result_order_hash = orderHash.slice(0, 2) + random_number + orderHash.slice(2 + 1);
-
-        const emailHash = web3.utils.sha3(order.email)
-        console.log("🚀 ~ file: index.js:81 ~ purchaseCourse ~ emailHash:", emailHash)
-        let result_email_hash = emailHash.slice(0, 2) + random_number + emailHash.slice(2 + 1);
-        console.log('After update email hash ', result_email_hash)
-        
-
-        console.log("🚀 ~ file: index.js:72 ~ purchaseCourse ~ emailHash:", emailHash) 
-
-        const proof = web3.utils.soliditySha3(
-            { type: "bytes32", value: result_email_hash },
-            { type: "bytes32", value: result_order_hash }
+        { type: "bytes16", value: hexCourseId },
+        { type: "address", value: account.data }
         )
-        console.log("🚀 ~ file: index.js:77 ~ purchaseCourse ~ proof:", proof)
-    
-        const hexString = String(hexCourseId);
-        const paddedHexString = hexString.slice(2).padStart(32, "0");
-        const bytes16Value = web3.utils.hexToBytes(paddedHexString);
+        const emailHash = web3.utils.sha3(order.email)
+        const proof = web3.utils.soliditySha3(
+        { type: "bytes32", value: emailHash},
+        )
 
         const value = web3.utils.toWei(Number(order.price),'ether')
-            
+
+        console.log("🚀 ~ file: index.js:80 ~ purchaseCourse ~ value:", value)
+
+        const bytes16Value = web3.utils.hexToBytes(web3.utils.padLeft(value, 32));
+        console.log("🚀 ~ file: index.js:79 ~ purchaseCourse ~ bytes16Value:", bytes16Value)
+
         try {
-            const result = await contract.methods.purchaseCourse(
-                bytes16Value,
-                proof
-            ).send({from: account.data, value:value, gas:'4712388'})
-            console.log(result)
-        } catch(err) {
-            console.error("Purchase course: Operation has failed.", err)
-        }
+        const result = await contract.methods.purchaseCourse(
+            bytes16Value,
+            proof
+        ).send({from: account.data, value:value, gas:'4712388'})
+        console.log(result)
+    } catch (err){
+        console.error("Purchase course: Operation has failed.", err)
     }
+    }
+
+    // const purchaseCourse = async order => {
+    //     const hexCourseId = web3.utils.utf8ToHex("896464");
+
+        
+    //     console.log("Hex course id", hexCourseId)
+    //     console.log("Sender value is", account.data)
+
+    //     const orderHash = web3.utils.soliditySha3(
+    //         { type: "bytes16", value: Number(hexCourseId)},
+    //         { type: "address", value: account.data }
+    //     )   
+
+    //     console.log("🚀 ~ file: index.js:70 ~ purchaseCourse ~ orderHash:", orderHash)
+        
+    //     let random_number = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+
+    //     let result_order_hash = orderHash.slice(0, 2) + random_number + orderHash.slice(2 + 1);
+
+    //     const emailHash = web3.utils.sha3(order.email)
+    //     console.log("🚀 ~ file: index.js:81 ~ purchaseCourse ~ emailHash:", emailHash)
+    //     let result_email_hash = emailHash.slice(0, 2) + random_number + emailHash.slice(2 + 1);
+    //     console.log('After update email hash ', result_email_hash)
+        
+
+    //     console.log("🚀 ~ file: index.js:72 ~ purchaseCourse ~ emailHash:", emailHash) 
+
+    //     const proof = web3.utils.soliditySha3(
+    //         { type: "bytes32", value: result_email_hash },
+    //         { type: "bytes32", value: result_order_hash }
+    //     )
+    //     console.log("🚀 ~ file: index.js:77 ~ purchaseCourse ~ proof:", proof)
+    
+    //     const hexString = String(hexCourseId);
+    //     const paddedHexString = hexString.slice(2).padStart(32, "0");
+    //     const bytes16Value = web3.utils.hexToBytes(paddedHexString);
+
+
+
+    //     const value = web3.utils.toWei(Number(order.price),'ether')
+            
+    //     try {
+    //         const result = await contract.methods.purchaseCourse(
+    //             bytes16Value,
+    //             proof
+    //         ).send({from: account.data, value:value, gas:'4712388'})
+    //         console.log(result)
+    //     } catch(err) {
+    //         console.error("Purchase course: Operation has failed.", err)
+    //     }
+    // }
 
 
     //useEffect

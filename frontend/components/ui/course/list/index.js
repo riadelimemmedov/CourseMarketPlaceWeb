@@ -61,26 +61,38 @@ export default function List(){
     };
 
     const purchaseCourse = async order => {
-        const hexCourseId = web3.utils.utf8ToHex(selectedCourse.id.toString());
+        // const hexCourseId1 = web3.utils.utf8ToHex("896464");
+        // console.log("🚀 ~ file: index.js:65 ~ purchaseCourse ~ hexCourseId1:", hexCourseId1)
+        const hexCourseId = web3.utils.padRight(web3.utils.utf8ToHex(selectedCourse.id.toString()), 32);
+        console.log("🚀 ~ file: index.js:66 ~ purchaseCourse ~ hexCourseId:", hexCourseId)
+
+
         const orderHash = web3.utils.soliditySha3(
         { type: "bytes16", value: hexCourseId },
         { type: "address", value: account.data }
         )
+        console.log("🚀 ~ file: index.js:73 ~ purchaseCourse ~ orderHash:", orderHash)
+
+
         const emailHash = web3.utils.sha3(order.email)
         const proof = web3.utils.soliditySha3(
         { type: "bytes32", value: emailHash},
+        { type: "bytes32", value: orderHash.replace(orderHash.slice(0,4),"2e")},
         )
+        
+        console.log("🚀 ~ file: index.js:79 ~ purchaseCourse ~ proof:", proof)
 
         const value = web3.utils.toWei(Number(order.price),'ether')
 
-        console.log("🚀 ~ file: index.js:80 ~ purchaseCourse ~ value:", value)
+        // console.log("🚀 ~ file: index.js:80 ~ purchaseCourse ~ value:", value)
 
-        const bytes16Value = web3.utils.hexToBytes(web3.utils.padLeft(value, 32));
-        console.log("🚀 ~ file: index.js:79 ~ purchaseCourse ~ bytes16Value:", bytes16Value)
+        // const hex_byte = web3.utils.hexToBytes(web3.utils.padLeft(value, 32));
+        console.log("🚀 ~ file: index.js:91 ~ purchaseCourse ~ value:", value)
+
 
         try {
         const result = await contract.methods.purchaseCourse(
-            bytes16Value,
+            hexCourseId,
             proof
         ).send({from: account.data, value:value, gas:'4712388'})
         console.log(result)

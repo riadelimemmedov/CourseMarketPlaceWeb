@@ -35,6 +35,11 @@ export default function Web3Provider({children}){
         const provider = await detectEthereumProvider()
         if(provider){
                 const contract_data = await loadContractData()
+                // const ownedCourse = await contract_data.contract.methods.getCourseHashAtIndex(0).call()
+                // const a = await contract_data.contract.methods.getCourseByHash("0xa3d6c602e6a4c1bb7aabfd9a12ecec388e1af52f9eb7e00761642b574661fc41").call()
+                // console.log("🚀 ~ file: index.js:40 ~ loadProvider ~ a:", a)
+                // console.log("🚀 ~ file: index.js:39 ~ loadProvider ~ ownedCourse:", ownedCourse)
+
                 // User is logged in to MetaMask
                 const web3 = new Web3(provider)
                 setWeb3Api({

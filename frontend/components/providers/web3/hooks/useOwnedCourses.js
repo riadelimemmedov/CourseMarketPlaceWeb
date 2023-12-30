@@ -1,6 +1,10 @@
 //!React
 import useSWR from "swr"
 
+
+//!Helpers methods and function
+import {loadContractData} from "@utils/contract/loadContractData"
+
 //?handler
 export const handler = (web3,contract) => (courses,account) => {
     const swrRes = useSWR(()=>
@@ -10,24 +14,23 @@ export const handler = (web3,contract) => (courses,account) => {
             for(let i=0; i<courses.length; i++){
                 const course = courses[i]
 
-                console.log('Account  ', account)
+                const hexCourseId = web3.utils.padRight(web3.utils.utf8ToHex(course.id.toString()), 32);
 
-                const hexCourseId = web3.utils.utf8ToHex(String(course.id))
-                console.log("🚀 ~ file: useOwnedCourses.js:14 ~ hexCourseId:", hexCourseId)
                 const courseHash = web3.utils.soliditySha3(
-                    { type: "bytes16", value: Number(hexCourseId)},
+                    { type: "bytes16", value: hexCourseId},
                     { type: "address", value: account.data }
                 ) 
-                console.log("🚀 ~ file: useOwnedCourses.js:22 ~ courseHash:", courseHash)
-                
-                const ownedCourse = await contract.methods.getCourseByHash(courseHash).call()
-                console.log("🚀 ~ file: useOwnedCourses.js:20 ~ ownedCourse:", ownedCourse)
+
+                const contract_data = await loadContractData()
+
+                const ownedCourse = await contract_data.contract.methods.getCourseByHash(courseHash).call()
+                // const a = await contract_data.contract.methods.getCourseByHash("0xa3d6c602e6a4c1bb7aabfd9a12ecec388e1af52f9eb7e00761642b574661fc41").call()
                 
                 if(ownedCourse.owner != "0x0000000000000000000000000000000000000000"){
                     ownedCourses.push(ownedCourse)
                 }
-
             }
+            console.log('Owned corusee resultt for purchasee ', ownedCourses)
             return ownedCourses
         }
     )

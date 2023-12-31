@@ -31,6 +31,8 @@ export default function OwnedCourses () {
 
         const ownedCourses = useOwnedCourses(courses,account)
         console.log('Buying coursesss....... ', ownedCourses.data)
+        
+
 
 
         useEffect(() => {
@@ -45,13 +47,24 @@ export default function OwnedCourses () {
                         <Header/>
                     </div>
                     <section className="grid grid-cols-1">
-                        <OwnedCourseCard/>
-                        <Message type="warning">
-                            My custom messages!
-                        </Message>
-                        <Button>
-                            Watch the course
-                        </Button>
+                        {
+                            ownedCourses.data?.map(course => 
+                                    <>  
+                                        <OwnedCourseCard key={course.id} course={course}>
+                                            {/*
+                                                <Message type="warning">
+                                                My custom messages!
+                                            </Message>
+                                            */}
+                                            
+                                            <Button>
+                                                Watch the course
+                                            </Button>
+                                        </OwnedCourseCard>
+
+                                    </>    
+                            )
+                        }
                     </section>
                 </BaseLayout>
             </>

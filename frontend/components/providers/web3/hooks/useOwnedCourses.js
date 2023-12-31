@@ -4,15 +4,18 @@ import useSWR from "swr"
 
 //!Helpers methods and function
 import {loadContractData} from "@utils/contract/loadContractData"
+import { normalizeOwnedCourse } from "@utils/normalize"
 
 //?handler
 export const handler = (web3,contract) => (courses,account) => {
     const swrRes = useSWR(()=>
-        (web3 && contract && account.data) ? "web3/ownedCourses":null,
+        (web3 && contract && account.data) ? `web3/ownedCourses/${account.data}/`:null,
         async () => {
             const ownedCourses = []
             for(let i=0; i<courses.length; i++){
                 const course = courses[i]
+
+                if(!course.id) {continue}
 
                 const hexCourseId = web3.utils.padRight(web3.utils.utf8ToHex(course.id.toString()), 32);
 
@@ -27,7 +30,8 @@ export const handler = (web3,contract) => (courses,account) => {
                 // const a = await contract_data.contract.methods.getCourseByHash("0xa3d6c602e6a4c1bb7aabfd9a12ecec388e1af52f9eb7e00761642b574661fc41").call()
                 
                 if(ownedCourse.owner != "0x0000000000000000000000000000000000000000"){
-                    ownedCourses.push(ownedCourse)
+                    const normalized = normalizeOwnedCourse(web3)(course,ownedCourse)
+                    ownedCourses.push(normalized)
                 }
             }
             console.log('Owned corusee resultt for purchasee ', ownedCourses)

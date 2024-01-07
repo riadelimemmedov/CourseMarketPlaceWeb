@@ -12,13 +12,15 @@ import { Button, Message } from "@components/ui/common"
 //!Helpers methods
 import { useOwnedCourses } from "@components/hooks/web3/useOwnedCourses"
 import { useAccount } from "@components/hooks/web3/useAccount"
-
+import { useRouter } from 'next/navigation'
 
 
 //*OwnedCourses
 export default function OwnedCourses () {
         const { account } = useAccount()
         const [courses,setCourse] = useState([])
+        const router = useRouter()
+        
 
         //getAllCourses
         const get_all_courses = async () => {
@@ -32,8 +34,6 @@ export default function OwnedCourses () {
         const ownedCourses = useOwnedCourses(courses,account)
         console.log('Buying coursesss....... ', ownedCourses.data)
         
-
-
 
         useEffect(() => {
             get_all_courses()
@@ -57,7 +57,9 @@ export default function OwnedCourses () {
                                             </Message>
                                             */}
                                             
-                                            <Button>
+                                            <Button onClick={() => {
+                                                    router.push(`/course/${course.slug}`)
+                                                }}>
                                                 Watch the course
                                             </Button>
                                         </OwnedCourseCard>

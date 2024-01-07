@@ -1,13 +1,18 @@
-//!React
+//!React and Next.js
 import useSWR from "swr"
+import { usePathname } from 'next/navigation'
+import { useEffect } from "react"
 
 
 //!Helpers methods and function
 import {loadContractData} from "@utils/contract/loadContractData"
 import { normalizeOwnedCourse } from "@utils/normalize"
 
+
 //?handler
 export const handler = (web3,contract) => (courses,account) => {
+    const pathname = usePathname()
+
     const swrRes = useSWR(()=>
         (web3 && contract && account.data) ? `web3/ownedCourses/${account.data}/`:null,
         async () => {
@@ -38,5 +43,12 @@ export const handler = (web3,contract) => (courses,account) => {
             return ownedCourses
         }
     )
+
+    useEffect(() => {
+        if (pathname === '/marketplace/courses/owned') {
+            swrRes.mutate(); // Trigger revalidation of SWR data
+        }
+    }, [swrRes]);
+
     return swrRes
 }

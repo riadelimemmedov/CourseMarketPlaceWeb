@@ -7,7 +7,7 @@ const SIZE = {
 
 
 //*Button
-export default function Button({
+export default function  Button({
     children,
     className,
     size = "md",
@@ -28,7 +28,7 @@ export default function Button({
     return (
         <button
             {...rest}
-            className={`${sizeClass} disabled:opacity-50 disabled:cursor-not-allowed border rounded-md font-medium ${className} ${variants[variant]}`}>
+            className={`${sizeClass} disabled:opacity-50 disabled:cursor-not-allowed xs:px-8 xs:py-3 p-2 border rounded-md font-medium ${className} ${variants[variant]}`}>
             {children}
         </button>
     )

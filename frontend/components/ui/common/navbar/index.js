@@ -20,7 +20,6 @@ export default function Navbar(){
 
     const pathname = usePathname()
 
-
     //return jsx to client
     return(
         <section>

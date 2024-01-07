@@ -30,8 +30,8 @@ export default function Card({course,index,disabled,Footer}){
                     </div>
                     <div className="p-8 flex-1">
                         <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{course.course_type}</div>
-                        <Link href={`/course/${course.slug}`} className="block mt-1 text-lg leading-tight font-mediu">{course.title}</Link>
-                        <p className="mt-2 text-gray-500">{course.description.substring(0,70)}...</p>
+                        <Link href={`/course/${course.slug}`} className="block mt-1 text-sm sm:text-lg leading-tight font-mediu">{course.title}</Link>
+                        <p className="mt-2 text-gray-500 text-sm sm:text-base">{course.description.substring(0,70)}...</p>
                         {Footer && pathname.includes('/marketplace') &&
                             <Footer/>
                         }

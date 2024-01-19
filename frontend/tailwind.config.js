@@ -21,6 +21,9 @@ module.exports = {
       maxWidth:{
         "8xl": "1920px"
       },
+      width:{
+        "66":"268px"
+      }
     },
   },
   plugins: [],

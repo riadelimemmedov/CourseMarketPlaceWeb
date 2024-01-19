@@ -1,10 +1,11 @@
 //!Custom components
-import { Button, Modal } from "@components/ui/common"
+import { Button, Message, Modal } from "@components/ui/common"
 import { useEffect, useState } from "react"
 
 
 //!Helpers methods
 import convert from "utils/convert_eth"
+
 
 
 //defaultOrder
@@ -35,6 +36,7 @@ export default function OrderModal({course,eth,onClose,onSubmit}){
     const [order,setOrder] = useState(defaultOrder)
     const [formState,setFormState] = useState({})
     const [hasAgreedTOS,setHasAgreedTOS] = useState(false)
+    const [isOrder,setIsOrder] = useState(false)
 
 
     //closeModal
@@ -42,6 +44,7 @@ export default function OrderModal({course,eth,onClose,onSubmit}){
         setIsOpen(false)
         setOrder(defaultOrder)
         setHasAgreedTOS(false)
+        setIsOrder(false)
         onClose()
     }
 
@@ -61,8 +64,15 @@ export default function OrderModal({course,eth,onClose,onSubmit}){
     //createOrder
     const createOrder = () => {
         let form_state = createFormState(order,hasAgreedTOS)
-        setFormState(form_state)
+        if (form_state.message.length > 0){
+            setFormState(form_state)
+            return
+        }
         onSubmit(order,course)
+        setIsOrder(true)
+        setTimeout(() => {
+            closeModal()
+        }, 3000);
         order.email = ''
     }
 
@@ -85,6 +95,10 @@ export default function OrderModal({course,eth,onClose,onSubmit}){
                                 <h3 className="mb-7 text-sm font-bold leading-6 text-blue-500" id="modal-title">
                                     {course.title}
                                 </h3>
+                                {
+                                    isOrder && 
+                                    <Message children={"Course buyed successfully"}/>
+                                }
                                 <hr />
                         <div className="mt-2 relative rounded-md">
                             <div className="mb-1">

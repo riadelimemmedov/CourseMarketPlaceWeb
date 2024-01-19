@@ -169,12 +169,26 @@ export default function List(){
                             { current_courses.map((course, index) =>
                                 <>
                                     <CourseCard course={course} index={index} disabled={!isCanPurchaseCourse} Footer={() => (
-                                        <div className="mt-20 flex flex-1 items-stretch text-center">
-                                            <Button onClick={() => setSelectedCourse(course)} className="pr-5 pl-5 pt-3 pb-3 mt-8 flex items-center" variant="lightPurple" disabled={!isCanPurchaseCourse}>
-                                                Purchase Now - <CoursePrice eth={eth} course={course} />
-                                                <Image layout="fixed" height="35" width="35" src="https://raw.githubusercontent.com/Jerga99/eth-marketplace-course/main/public/small-eth.webp"/>
-                                            </Button>
-                                        </div>
+                                        <>
+                                            <div className="mt-20 flex flex-1 items-stretch text-center">
+                                                <Button onClick={() => setSelectedCourse(course)} className="pr-5 pl-5 pt-3 pb-3 mt-8 flex items-center" variant="lightPurple" disabled={!isCanPurchaseCourse}>
+                                                    Purchase Now - <CoursePrice eth={eth} course={course} />
+                                                    <Image layout="fixed" height="35" width="35" src="https://raw.githubusercontent.com/Jerga99/eth-marketplace-course/main/public/small-eth.webp"/>
+                                                </Button>
+                                            </div>
+                                            <div>
+                                                <div className="mt-2 flex flex-1 items-stretch text-center">
+                                                    <Button variant="paypal" className="w-66 pr-4 pl-4 pt-4 pb-4">
+                                                        Purchase Now - 
+                                                        <img src="https://www.vectorlogo.zone/logos/stripe/stripe-ar21.svg" class="w-14 ml-1 me-2 -ms-1" alt="" />
+                                                    </Button>
+                                                </div>
+                                                
+                                            </div>
+                                        </>
+                                        
+                                        
+                                        
                                     )}/>
                                 </>
                             )}

@@ -23,6 +23,7 @@ export default function  Button({
         purple: `text-white bg-indigo-600 ${hoverable && "hover:bg-indigo-700"}`,
         red: `text-white bg-red-600 ${hoverable && "hover:bg-red-700"}`,
         lightPurple: `text-indigo-700 bg-indigo-100 ${hoverable && "hover:bg-indigo-200"}`,
+        paypal:`text-gray-900 bg-[#fde047] hover:bg-[#fde047]/90 focus:ring-4 focus:outline-none focus:ring-[#fde047]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#fde047]/50 me-2 mb-2`
     }
 
     return (
